@@ -9,7 +9,8 @@ import java.net.URI;
 public class EngineRequestHTTPServer {
     private HttpServer server;
     private int port;
-    private static final String DEFAULT_RESPONSE = "OK";
+    private static final String DEFAULT_RESPONSE = "COULD NOT FIND THE RELEVANT ENGINE TYPE";
+    private  HttpExchange theExchange; //Global variable for this class
 
 
     public EngineRequestHTTPServer(int port) {
@@ -20,8 +21,47 @@ public class EngineRequestHTTPServer {
         System.out.println(requestPath);
         System.out.println(query);
 
-
         //Your code goes here
+        switch (requestPath){
+            // An order
+            case "/order":
+                handleOrder(query);
+                break;
+
+            case "/stop":
+                stopServer();
+                break;
+
+            default:
+                // Print statement corresponding case
+                System.out.println("no match for path");
+
+        }
+
+    }
+
+    /**
+     * This function is used to handle the order requests
+     * @param query : Query string from http request
+     */
+    public void handleOrder(String query){
+        String s = query.split("=")[1];
+        System.out.println(s);
+        try{
+            EngineType engineType = EngineType.valueOf(s);
+            Engine newEngine = EngineFactory.produceEngine(engineType);
+            //Create response message
+            String theMessage = s + " Engine is created " + newEngine.toString();
+            String response = "<html><link rel=\"icon\" href=\"data:,\">" + theMessage + "</html>";
+            //Set 200 as request response CODE
+            theExchange.sendResponseHeaders(200, response.getBytes().length);//response code and length
+            //Write the response to the response OutputStream
+            theExchange.getResponseBody().write(response.getBytes());
+            //Close response output stream
+            theExchange.getResponseBody().close();
+        }catch (IllegalArgumentException | IOException e){
+            System.out.println("Illegal argument is caught!!");
+        }
 
 
     }
@@ -45,6 +85,7 @@ public class EngineRequestHTTPServer {
         context.setHandler(new HttpHandler() {
             @Override
             public void handle(HttpExchange exchange) throws IOException {
+                theExchange = exchange;
                 URI requestURI = exchange.getRequestURI();
 
                 //Pass request path and query to handleRequest Method

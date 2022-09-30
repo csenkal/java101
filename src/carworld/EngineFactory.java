@@ -1,7 +1,7 @@
 package carworld;
 
 public class EngineFactory {
-    public Engine produceEngine(EngineType type){
+    public static Engine produceEngine(EngineType type){
         if(type.equals(EngineType.GAS))
             return new GasEngine();
         else if(type.equals(EngineType.DIESEL))
