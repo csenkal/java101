@@ -11,8 +11,8 @@ import java.net.URI;
 
 public class CarFactory {
 
-
 	public static void main (String[] args) {
+		EngineType type;
 		EngineRequestHTTPServer server = new EngineRequestHTTPServer(8085);
 		server.startServer();
 
