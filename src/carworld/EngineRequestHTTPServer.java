@@ -11,16 +11,32 @@ public class EngineRequestHTTPServer {
     private int port;
     private static final String DEFAULT_RESPONSE = "OK";
 
-
+    EngineFactory D1 = new EngineFactory();
+    DieselEngine D2 = new DieselEngine();
     public EngineRequestHTTPServer(int port) {
         this.port = port;
     }
 
     private void handleRequest(String requestPath, String query){
+
+        if (requestPath.equals("/stop")){
+            server.stop(1);
+        }
+
         System.out.println(requestPath);
         System.out.println(query);
 
+        if (query.equals("type=GAS")){
+            D1.produceEngine("GAS");
+        }
+        else if (query.equals("type=DIESEL")){
+            D1.produceEngine("DIESEL");
+            System.out.println("yoo");
+        }
+        else if (query.equals("type=ELECTRIC")){
+            D1.produceEngine("ELECTRIC");
 
+        }
         //Your code goes here
 
 

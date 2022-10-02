@@ -1,5 +1,8 @@
 package carworld;
 
+
 public class DieselEngine extends Engine{
-    private String particleFilter;
+
+    public String particleFilter ="ParticleFilter var";
+
 }
