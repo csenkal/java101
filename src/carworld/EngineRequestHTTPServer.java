@@ -19,21 +19,25 @@ public class EngineRequestHTTPServer {
 
     private void handleRequest(String requestPath, String query) {
 
-
+        RESPONSE=DEFAULT_RESPONSE;
         System.out.println(requestPath);
         System.out.println(query);
 
         EngineFactory ef = new EngineFactory();
 
-        if (query != null || query.equals("type=GAS")) {
+        if (query != null && query.equals("type=GAS")) {
             ef.produceEngine(EngineType.GAS);
             RESPONSE = "GAS engine has been produced";
-        } else if (query != null || query.equals("type=DIESEL")) {
+        } else if (query != null && query.equals("type=DIESEL")) {
             ef.produceEngine(EngineType.DIESEL);
             RESPONSE = "DIESEL engine has been produced";
-        } else if (query != null || query.equals("type=ELECTRIC")) {
+        } else if (query != null && query.equals("type=ELECTRIC")) {
             ef.produceEngine(EngineType.ELECTRIC);
             RESPONSE = "ELECTRIC engine has been produced";
+        } else {
+
+            RESPONSE=DEFAULT_RESPONSE;
+
         }
     }
 
