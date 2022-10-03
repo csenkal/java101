@@ -12,9 +12,16 @@ public class EngineRequestHTTPServer {
     private static final String DEFAULT_RESPONSE = "COULD NOT FIND THE RELEVANT ENGINE TYPE";
     private  HttpExchange theExchange; //Global variable for this class
 
+   private  EngineFactory theEngineFactory;
+
 
     public EngineRequestHTTPServer(int port) {
         this.port = port;
+
+    }
+
+    public void setTheEngineFactory(EngineFactory theEngineFactory) {
+        this.theEngineFactory = theEngineFactory;
     }
 
     private void handleRequest(String requestPath, String query){
@@ -45,22 +52,55 @@ public class EngineRequestHTTPServer {
      * @param query : Query string from http request
      */
     public void handleOrder(String query){
-        String s = query.split("=")[1];
-        System.out.println(s);
-        try{
-            EngineType engineType = EngineType.valueOf(s);
-            Engine newEngine = EngineFactory.produceEngine(engineType);
-            //Create response message
-            String theMessage = s + " Engine is created " + newEngine.toString();
-            String response = "<html><link rel=\"icon\" href=\"data:,\">" + theMessage + "</html>";
-            //Set 200 as request response CODE
-            theExchange.sendResponseHeaders(200, response.getBytes().length);//response code and length
-            //Write the response to the response OutputStream
-            theExchange.getResponseBody().write(response.getBytes());
-            //Close response output stream
-            theExchange.getResponseBody().close();
-        }catch (IllegalArgumentException | IOException e){
-            System.out.println("Illegal argument is caught!!");
+
+        if (query!=null && query.split("=").length == 2) {
+            String s = query.split("=")[1];
+            System.out.println(s);
+            try {
+                if(s!=null){
+                    EngineType engineType = EngineType.valueOf(s);
+                    Engine newEngine = theEngineFactory.produceEngine(engineType);
+                    //Create response message
+                    String theMessage = s + " Engine is created " + newEngine.toString();
+                    String response = "<html><link rel=\"icon\" href=\"data:,\">" + theMessage + "</html>";
+                    //Set 200 as request response CODE
+                    theExchange.sendResponseHeaders(200, response.getBytes().length);//response code and length
+                    //Write the response to the response OutputStream
+                    theExchange.getResponseBody().write(response.getBytes());
+                    //Close response output stream
+                    theExchange.getResponseBody().close();
+                } else{
+                    //Create response message
+                    String theMessage = "Bad Input !!";
+                    String response = "<html><link rel=\"icon\" href=\"data:,\">" + theMessage + "</html>";
+                    //Set 200 as request response CODE
+                    theExchange.sendResponseHeaders(200, response.getBytes().length);//response code and length
+                    //Write the response to the response OutputStream
+                    theExchange.getResponseBody().write(response.getBytes());
+                    //Close response output stream
+                    theExchange.getResponseBody().close();
+
+                }
+
+            } catch (IllegalArgumentException | IOException e) {
+                System.out.println("Illegal argument is caught!!");
+            }
+        } else{
+            try{
+                //Create response message
+                String theMessage = "Bad Input !!";
+                String response = "<html><link rel=\"icon\" href=\"data:,\">" + theMessage + "</html>";
+                //Set 200 as request response CODE
+                theExchange.sendResponseHeaders(200, response.getBytes().length);//response code and length
+                //Write the response to the response OutputStream
+                theExchange.getResponseBody().write(response.getBytes());
+                //Close response output stream
+                theExchange.getResponseBody().close();
+            }catch(IllegalArgumentException | IOException e){
+                System.out.println("Illegal argument is caught!!");
+            }
+
+
         }
 
 
