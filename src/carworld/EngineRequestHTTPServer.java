@@ -10,7 +10,7 @@ public class EngineRequestHTTPServer {
     private HttpServer server;
     private int port;
     private static final String DEFAULT_RESPONSE = "COULD NOT FIND THE RELEVANT ENGINE TYPE";
-    private  HttpExchange theExchange; //Global variable for this class
+
 
    private  EngineFactory theEngineFactory;
 
@@ -24,7 +24,7 @@ public class EngineRequestHTTPServer {
         this.theEngineFactory = theEngineFactory;
     }
 
-    private void handleRequest(String requestPath, String query){
+    private String handleRequest(String requestPath, String query){
         System.out.println(requestPath);
         System.out.println(query);
 
@@ -32,16 +32,16 @@ public class EngineRequestHTTPServer {
         switch (requestPath){
             // An order
             case "/order":
-                handleOrder(query);
-                break;
+                return handleOrder(query);
+
 
             case "/stop":
                 stopServer();
-                break;
+                return "server stopped";
 
             default:
                 // Print statement corresponding case
-                System.out.println("no match for path");
+                return "no match for path";
 
         }
 
@@ -50,60 +50,36 @@ public class EngineRequestHTTPServer {
     /**
      * This function is used to handle the order requests
      * @param query : Query string from http request
+     * @return the message to be displayed in the http response
      */
-    public void handleOrder(String query){
+    public String handleOrder(String query){
+        String theMessage=null;
 
-        if (query!=null && query.split("=").length == 2) {
-            String s = query.split("=")[1];
-            System.out.println(s);
+        String[] split;
+        if (query!=null && (split=query.split("=")).length == 2) {
+            String typeStr = split[0];
+            String engineTypeStr = split[1];
+            System.out.println(engineTypeStr);
             try {
-                if(s!=null){
-                    EngineType engineType = EngineType.valueOf(s);
+                if(typeStr!=null && typeStr.equals("type") && engineTypeStr!=null){
+                    EngineType engineType = EngineType.valueOf(engineTypeStr);
                     Engine newEngine = theEngineFactory.produceEngine(engineType);
                     //Create response message
-                    String theMessage = s + " Engine is created " + newEngine.toString();
-                    String response = "<html><link rel=\"icon\" href=\"data:,\">" + theMessage + "</html>";
-                    //Set 200 as request response CODE
-                    theExchange.sendResponseHeaders(200, response.getBytes().length);//response code and length
-                    //Write the response to the response OutputStream
-                    theExchange.getResponseBody().write(response.getBytes());
-                    //Close response output stream
-                    theExchange.getResponseBody().close();
+                    theMessage = engineTypeStr + " Engine is created " + newEngine.toString();
+
                 } else{
                     //Create response message
-                    String theMessage = "Bad Input !!";
-                    String response = "<html><link rel=\"icon\" href=\"data:,\">" + theMessage + "</html>";
-                    //Set 200 as request response CODE
-                    theExchange.sendResponseHeaders(200, response.getBytes().length);//response code and length
-                    //Write the response to the response OutputStream
-                    theExchange.getResponseBody().write(response.getBytes());
-                    //Close response output stream
-                    theExchange.getResponseBody().close();
-
+                    theMessage = "Bad Input !!";
                 }
 
-            } catch (IllegalArgumentException | IOException e) {
+            } catch (IllegalArgumentException ex) {
                 System.out.println("Illegal argument is caught!!");
             }
         } else{
-            try{
-                //Create response message
-                String theMessage = "Bad Input !!";
-                String response = "<html><link rel=\"icon\" href=\"data:,\">" + theMessage + "</html>";
-                //Set 200 as request response CODE
-                theExchange.sendResponseHeaders(200, response.getBytes().length);//response code and length
-                //Write the response to the response OutputStream
-                theExchange.getResponseBody().write(response.getBytes());
-                //Close response output stream
-                theExchange.getResponseBody().close();
-            }catch(IllegalArgumentException | IOException e){
-                System.out.println("Illegal argument is caught!!");
-            }
-
-
+            theMessage = "Bad Input !!";
         }
 
-
+        return theMessage;
     }
 
     public void stopServer(){
@@ -125,14 +101,13 @@ public class EngineRequestHTTPServer {
         context.setHandler(new HttpHandler() {
             @Override
             public void handle(HttpExchange exchange) throws IOException {
-                theExchange = exchange;
                 URI requestURI = exchange.getRequestURI();
 
                 //Pass request path and query to handleRequest Method
-                handleRequest(requestURI.getPath(),requestURI.getQuery());
+                String message = handleRequest(requestURI.getPath(),requestURI.getQuery());
 
                 //Create a default response message OK
-                String response = "<html><link rel=\"icon\" href=\"data:,\">" + DEFAULT_RESPONSE + "</html>";
+                String response = "<html><link rel=\"icon\" href=\"data:,\">" + message + "</html>";
                 //Set 200 as request response CODE
                 exchange.sendResponseHeaders(200, response.getBytes().length);//response code and length
                 //Write OK to the response OutputStream
@@ -146,6 +121,7 @@ public class EngineRequestHTTPServer {
         //So when the main comes to the last line, process does not terminate
         //Until you explicitly stop server
         server.start();
+        System.out.printf("Engine Factory HTTP Server is listening at "+port);
     }
 
 
