@@ -14,32 +14,51 @@ public class EngineRequestHTTPServer {
 
     public EngineRequestHTTPServer(int port) {
         this.port = port;
+
+
+
+
+
+
+
+
+
+
     }
 
     private void handleRequest(String requestPath, String query) {
-        //System.out.println(requestPath);
-        //System.out.println("QUERY"+query);
+        System.out.println(requestPath);
+        System.out.println("QUERY"+query);
 
 
-        if(query.equals("electric"))
+
+        EngineFactory engineFactory1 = new EngineFactory(); // her istek geldiğinde engine factory oluşturmamalıyız
+
+
+
+
+        if(query.equals("type=ELECTRIC"))
         {   System.out.println("HTTP GET request has been received for \"electric\"");
-            EngineType x= EngineType.ELECTRIC;
-            EngineFactory engineFactory = new EngineFactory();
-            Engine engine= engineFactory.produceEngine(x);
+            EngineType engineType= EngineType.ELECTRIC;
+            Engine engine= engineFactory1.produceEngine(engineType);
+            ((ElectricEngine) engine).getBrakeEnergyRegenerator();
+
         }
 
-        else if(query.equals("gas"))
+        else if(query.equals("type=GAS"))
         {   System.out.println("HTTP GET request has been received for \"gas\"");
-            EngineType x= EngineType.ELECTRIC;
-            EngineFactory engineFactory = new EngineFactory();
-            Engine engine= engineFactory.produceEngine(x);
+            EngineType engineType= EngineType.ELECTRIC;
+            Engine engine= engineFactory1.produceEngine(engineType);
+            ((GasEngine) engine).getSparkPlug();
+
         }
 
-        else if(query.equals("diesel"))
+        else if(query.equals("type=DIESEL"))
         {   System.out.println("HTTP GET request has been received for \"diesel\"");
-            EngineType x= EngineType.ELECTRIC;
-            EngineFactory engineFactory = new EngineFactory();
-            Engine engine= engineFactory.produceEngine(x);
+            EngineType engineType= EngineType.ELECTRIC;
+            Engine engine= engineFactory1.produceEngine(engineType);
+            ((DieselEngine) engine).getParticleFilter();
+
 
         }
         else {
@@ -51,13 +70,19 @@ public class EngineRequestHTTPServer {
 
 
 
+    }
+
+
+
+
+
 
 
 
 
 
         //Your code goes here
-    }
+
 
         public void stopServer () {
             if (server != null)
