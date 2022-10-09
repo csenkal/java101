@@ -7,14 +7,17 @@ import java.io.OutputStream;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.net.URI;
+import java.util.*;
 
 
 public class CarFactory {
 
 	public static void main (String[] args) {
-		EngineType type;
+
 		EngineRequestHTTPServer server = new EngineRequestHTTPServer(8085);
 		server.startServer();
+
+		}
 
 
 		/*
@@ -37,7 +40,7 @@ public class CarFactory {
 		myCar.setThrottle(1);
 
 		*/
-    }
+
 }
 
 

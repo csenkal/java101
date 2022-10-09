@@ -25,25 +25,33 @@ public class EngineRequestHTTPServer {
 
         EngineFactory ef = new EngineFactory();
 
-        if (query != null && query.equals("type=GAS")) {
-            ef.produceEngine(EngineType.GAS);
-            RESPONSE = "GAS engine has been produced";
-        } else if (query != null && query.equals("type=DIESEL")) {
-            ef.produceEngine(EngineType.DIESEL);
-            RESPONSE = "DIESEL engine has been produced";
-        } else if (query != null && query.equals("type=ELECTRIC")) {
-            ef.produceEngine(EngineType.ELECTRIC);
-            RESPONSE = "ELECTRIC engine has been produced";
-        } else {
-
-            RESPONSE=DEFAULT_RESPONSE;
-
+        if (requestPath.equals("/stop")) {
+            stopServer();
         }
-    }
+
+        else {
+
+                if (query != null && query.equals("type=GAS")) {
+                    ef.produceEngine(EngineType.GAS);
+                    RESPONSE = "GAS engine has been produced";
+                } else if (query != null && query.equals("type=DIESEL")) {
+                    ef.produceEngine(EngineType.DIESEL);
+                    RESPONSE = "DIESEL engine has been produced";
+                } else if (query != null && query.equals("type=ELECTRIC")) {
+                    ef.produceEngine(EngineType.ELECTRIC);
+                    RESPONSE = "ELECTRIC engine has been produced";
+                } else {
+
+                    RESPONSE = DEFAULT_RESPONSE;
+
+                }
+            }
+        }
 
     public void stopServer(){
         if(server!=null)
             server.stop(1);
+        System.out.println("server kapandı");
     }
 
     public void startServer(){
