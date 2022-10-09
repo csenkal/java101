@@ -8,13 +8,46 @@ import java.net.URI;
 
 public class EngineRequestHTTPServer {
     private HttpServer server;
-    private int port;
+    final int port;
     private static final String DEFAULT_RESPONSE = "OK";
     private static String RESPONSE="OK";
+    EngineFactory ef = new EngineFactory();
 
 
     public EngineRequestHTTPServer(int port) {
         this.port = port;
+    }
+
+    public void handleQuery (String query1)
+    {
+        switch (query1)
+
+        {
+            case ("type=GAS"):
+                ef.produceEngine(EngineType.GAS);
+                RESPONSE = "GAS engine has been produced";
+                break;
+
+
+            case ("type=DIESEL"):
+                ef.produceEngine(EngineType.GAS);
+               RESPONSE = "DIESEL engine has been produced";
+               break;
+
+
+            case ("type=ELECTRIC"):
+                ef.produceEngine(EngineType.GAS);
+                RESPONSE = "ELECTRIC engine has been produced";
+                break;
+
+            default:
+                // Print statement corresponding case
+                RESPONSE= "Wrong order. Please try again.";
+                break;
+
+
+        }
+
     }
 
     private void handleRequest(String requestPath, String query) {
@@ -23,35 +56,26 @@ public class EngineRequestHTTPServer {
         System.out.println(requestPath);
         System.out.println(query);
 
-        EngineFactory ef = new EngineFactory();
 
-        if (requestPath.equals("/stop")) {
+        if (requestPath.equals("/order")) {
+            handleQuery(query);
+        }
+        else if (requestPath.equals("/stop")) {
             stopServer();
         }
 
         else {
+        RESPONSE= "wrong request";
 
-                if (query != null && query.equals("type=GAS")) {
-                    ef.produceEngine(EngineType.GAS);
-                    RESPONSE = "GAS engine has been produced";
-                } else if (query != null && query.equals("type=DIESEL")) {
-                    ef.produceEngine(EngineType.DIESEL);
-                    RESPONSE = "DIESEL engine has been produced";
-                } else if (query != null && query.equals("type=ELECTRIC")) {
-                    ef.produceEngine(EngineType.ELECTRIC);
-                    RESPONSE = "ELECTRIC engine has been produced";
-                } else {
-
-                    RESPONSE = DEFAULT_RESPONSE;
-
-                }
-            }
         }
+
+    }
+
 
     public void stopServer(){
         if(server!=null)
             server.stop(1);
-        System.out.println("server kapandı");
+        System.out.println("server closed");
     }
 
     public void startServer(){
