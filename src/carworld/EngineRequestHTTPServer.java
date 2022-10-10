@@ -5,6 +5,7 @@ import com.sun.net.httpserver.*;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.URI;
+import java.util.Scanner;
 
 public class EngineRequestHTTPServer {
     private HttpServer server;
@@ -13,30 +14,36 @@ public class EngineRequestHTTPServer {
 
     EngineFactory D1 = new EngineFactory();
     DieselEngine D2 = new DieselEngine();
+
     public EngineRequestHTTPServer(int port) {
         this.port = port;
     }
 
     private void handleRequest(String requestPath, String query){
 
+        String query2 = query.substring(query.lastIndexOf("=") + 1); // parse işlemini .useDelimiter("="); ile yapmaya çalıştım fakat çok karıştı
+
         if (requestPath.equals("/stop")){
             server.stop(1);
         }
 
-        System.out.println(requestPath);
-        System.out.println(query);
+        //System.out.println(requestPath);
+        //System.out.println(query);
 
-        if (query.equals("type=GAS")){
+        if (query2.equals("GAS")){
             D1.produceEngine("GAS");
         }
-        else if (query.equals("type=DIESEL")){
+        else if (query2.equals("DIESEL")){
             D1.produceEngine("DIESEL");
             System.out.println("yoo");
         }
-        else if (query.equals("type=ELECTRIC")){
+        else if (query2.equals("ELECTRIC")){
             D1.produceEngine("ELECTRIC");
-
         }
+        else {
+            server.stop(1);
+        }
+
         //Your code goes here
 
 
