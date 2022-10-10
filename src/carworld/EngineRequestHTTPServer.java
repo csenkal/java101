@@ -10,15 +10,32 @@ public class EngineRequestHTTPServer {
     private HttpServer server;
     private int port;
     private static final String DEFAULT_RESPONSE = "OK";
+    private EngineFactory ef;
 
 
-    public EngineRequestHTTPServer(int port) {
+    public EngineRequestHTTPServer(int port, EngineFactory pEf) {
         this.port = port;
+        this.ef= pEf;
     }
 
     private void handleRequest(String requestPath, String query){
         System.out.println(requestPath);
         System.out.println(query);
+
+
+        if(requestPath.equalsIgnoreCase("/order")) {
+            if (query.equalsIgnoreCase("type=gas")) {
+                ef.produceEngine(EngineType. GAS);
+            }
+            else if (query.equalsIgnoreCase("type=diesel")) {
+                ef.produceEngine(EngineType.DIESEL);
+            }
+
+                else if (query.equalsIgnoreCase("type=electric")) {
+                ef.produceEngine(EngineType.ELECTRIC);
+            }
+
+        }
 
 
         //Your code goes here
