@@ -88,6 +88,7 @@ public class EngineRequestHTTPServer {
         //So when the main comes to the last line, process does not terminate
         //Until you explicitly stop server
         server.start();
+        System.out.println("Engine Request HTTP Server is started listening at port:"+port);
     }
 
 
