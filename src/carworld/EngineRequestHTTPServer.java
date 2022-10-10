@@ -5,43 +5,37 @@ import com.sun.net.httpserver.*;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.net.URI;
-import java.util.Scanner;
 
 public class EngineRequestHTTPServer {
     private HttpServer server;
     private int port;
+    private static final String DEFAULT_RESPONSE = "OK";
     private EngineFactory ef;
-    private static String DEFAULT_RESPONSE = "OK";
+
+
 
     public EngineRequestHTTPServer(int port, EngineFactory pEf) {
         this.port = port;
         this.ef = pEf;
     }
 
-
     private void handleRequest(String requestPath, String query){
         System.out.println(requestPath);
         System.out.println(query);
 
-        String query2 = query.substring(query.lastIndexOf("=") + 1);
-        // parse işlemini .useDelimiter("="); ile yapmaya çalıştım fakat çok karıştı
+
 
         if(requestPath.equalsIgnoreCase("/order")){
-            if(query2.equalsIgnoreCase("gas")){
+            if(query.equalsIgnoreCase("type=gas")){
                 ef.produceEngine(EngineType.GAS);
-                DEFAULT_RESPONSE = "Gasoline engine produced";
-            }
-            else if(query2.equalsIgnoreCase("diesel")){
-                ef.produceEngine(EngineType.DIESEL);
-                DEFAULT_RESPONSE = "Diesel Engine produced";
-            }
-            else if(query2.equalsIgnoreCase("electric")){
-                ef.produceEngine(EngineType.ELECTRIC);
-                DEFAULT_RESPONSE = "Electric engine produced";
-            }
-            else
-                DEFAULT_RESPONSE = "Wrong order";
 
+            }
+            else if(query.equalsIgnoreCase("type=diesel")){
+                ef.produceEngine(EngineType.DIESEL);
+            }
+            else if(query.equalsIgnoreCase("type=electric")){
+                ef.produceEngine(EngineType.ELECTRIC);
+            }
 
         }
         //Your code goes here
