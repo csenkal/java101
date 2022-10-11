@@ -3,8 +3,8 @@ package carworld;
 public class EngineFactory {
 
 
-    public Engine produceEngine(String type){
-
+    public Engine produceEngine(EngineType type){
+        System.out.println(type + " Engine produced");
         if(type.equals(EngineType.GAS))
             return new GasEngine();
         else if(type.equals(EngineType.DIESEL))
@@ -14,4 +14,6 @@ public class EngineFactory {
         else
             return null;
     }
+
+
 }

@@ -10,40 +10,40 @@ import java.util.Scanner;
 public class EngineRequestHTTPServer {
     private HttpServer server;
     private int port;
-    private static final String DEFAULT_RESPONSE = "OK";
+    private EngineFactory ef;
+    private static String DEFAULT_RESPONSE = "OK";
 
-    EngineFactory D1 = new EngineFactory();
-    DieselEngine D2 = new DieselEngine();
-
-    public EngineRequestHTTPServer(int port) {
+    public EngineRequestHTTPServer(int port, EngineFactory pEf) {
         this.port = port;
+        this.ef = pEf;
     }
 
+
     private void handleRequest(String requestPath, String query){
+        System.out.println(requestPath);
+        System.out.println(query);
 
-        String query2 = query.substring(query.lastIndexOf("=") + 1); // parse işlemini .useDelimiter("="); ile yapmaya çalıştım fakat çok karıştı
+        String query2 = query.substring(query.lastIndexOf("=") + 1);
+        // parse işlemini .useDelimiter("="); ile yapmaya çalıştım fakat çok karıştı
 
-        if (requestPath.equals("/stop")){
-            server.stop(1);
-        }
+        if(requestPath.equalsIgnoreCase("/order")){
+            if(query2.equalsIgnoreCase("gas")){
+                ef.produceEngine(EngineType.GAS);
+                DEFAULT_RESPONSE = "Gasoline engine produced";
+            }
+            else if(query2.equalsIgnoreCase("diesel")){
+                ef.produceEngine(EngineType.DIESEL);
+                DEFAULT_RESPONSE = "Diesel Engine produced";
+            }
+            else if(query2.equalsIgnoreCase("electric")){
+                ef.produceEngine(EngineType.ELECTRIC);
+                DEFAULT_RESPONSE = "Electric engine produced";
+            }
+            else
+                DEFAULT_RESPONSE = "Wrong order";
 
-        //System.out.println(requestPath);
-        //System.out.println(query);
 
-        if (query2.equals("GAS")){
-            D1.produceEngine("GAS");
         }
-        else if (query2.equals("DIESEL")){
-            D1.produceEngine("DIESEL");
-            System.out.println("yoo");
-        }
-        else if (query2.equals("ELECTRIC")){
-            D1.produceEngine("ELECTRIC");
-        }
-        else {
-            server.stop(1);
-        }
-
         //Your code goes here
 
 
