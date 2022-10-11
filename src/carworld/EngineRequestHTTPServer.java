@@ -9,18 +9,13 @@ import java.net.URI;
 public class EngineRequestHTTPServer {
     private HttpServer server;
     private int port;
-    private static final String DEFAULT_RESPONSE = "OK";
+    private static  String DEFAULT_RESPONSE = "OK";
 
+    private  EngineFactory ef;
 
-    public EngineRequestHTTPServer(int port) {
+    public EngineRequestHTTPServer(int port, EngineFactory pEf ) {
         this.port = port;
-
-
-
-
-
-
-
+        this.ef=pEf;
 
 
 
@@ -32,41 +27,73 @@ public class EngineRequestHTTPServer {
 
 
 
-        EngineFactory engineFactory1 = new EngineFactory(); // her istek geldiğinde engine factory oluşturmamalıyız
-//comment
+        EngineFactory engineFactory1 = new EngineFactory(); //
+
+        if(requestPath.equalsIgnoreCase("/order")){
+            if(query.equalsIgnoreCase("type=gas")){
+                ef.produceEngine(EngineType.GAS);
+                DEFAULT_RESPONSE= "HTTP GET request has been received for gas";
+
+            }
+            else if(query.equalsIgnoreCase("type=diesel")){
+                ef.produceEngine(EngineType.DIESEL);
+                DEFAULT_RESPONSE= "HTTP GET request has been received for diesel";
+            }
+            else if(query.equalsIgnoreCase("type=electric")){
+                ef.produceEngine(EngineType.ELECTRIC);
+                DEFAULT_RESPONSE= "HTTP GET request has been received for electric";
+            }
+            else {
+                System.out.println("query is invalid");
+                DEFAULT_RESPONSE= "query is invalid";
+            }
+
+
+        }
 
 
 
-        if(query.equals("type=ELECTRIC"))
+
+/*
+
+bu kod neden düzgün çalışmıyor araştırılacak.
+
+
+        if(query.equalsIgnoreCase("type=electric"))
         {   System.out.println("HTTP GET request has been received for \"electric\"");
             EngineType engineType= EngineType.ELECTRIC;
             Engine engine= engineFactory1.produceEngine(engineType);
             ((ElectricEngine) engine).getBrakeEnergyRegenerator();
+            DEFAULT_RESPONSE= "HTTP GET request has been received for ELECTRIC";
 
         }
 
-        else if(query.equals("type=GAS"))
+        else if(query.equalsIgnoreCase("type=gas"))
         {   System.out.println("HTTP GET request has been received for \"gas\"");
             EngineType engineType= EngineType.ELECTRIC;
             Engine engine= engineFactory1.produceEngine(engineType);
             ((GasEngine) engine).getSparkPlug();
+            DEFAULT_RESPONSE= "HTTP GET request has been received for ELECTRIC";
 
         }
 
-        else if(query.equals("type=DIESEL"))
+        else if(query.equalsIgnoreCase("type=diesel"))
         {   System.out.println("HTTP GET request has been received for \"diesel\"");
             EngineType engineType= EngineType.ELECTRIC;
             Engine engine= engineFactory1.produceEngine(engineType);
             ((DieselEngine) engine).getParticleFilter();
 
+            DEFAULT_RESPONSE= "HTTP GET request has been received for ELECTRIC";
+
 
         }
         else {
             System.out.println("query is invalid");
+            DEFAULT_RESPONSE= "query is invalid";
 
         }
 
-
+*/
 
 
 
