@@ -21,10 +21,11 @@ public class EngineRequestHTTPServer {
 
     }
 
-    private void handleRequest(String requestPath, String query) {
+    private String handleRequest(String requestPath, String query) {
+        String response = null; // yalnızca handleRequest metodu içinde kullanılabilecek response adında String değişken tanımlandı
+
         System.out.println(requestPath);
         System.out.println("QUERY"+query);
-
 
 
         EngineFactory engineFactory1 = new EngineFactory(); //
@@ -32,82 +33,29 @@ public class EngineRequestHTTPServer {
         if(requestPath.equalsIgnoreCase("/order")){
             if(query.equalsIgnoreCase("type=gas")){
                 ef.produceEngine(EngineType.GAS);
-                DEFAULT_RESPONSE= "HTTP GET request has been received for gas";
+                response= "HTTP GET request has been received for gas";
+
 
             }
             else if(query.equalsIgnoreCase("type=diesel")){
                 ef.produceEngine(EngineType.DIESEL);
-                DEFAULT_RESPONSE= "HTTP GET request has been received for diesel";
+                response= "HTTP GET request has been received for diesel";
             }
             else if(query.equalsIgnoreCase("type=electric")){
                 ef.produceEngine(EngineType.ELECTRIC);
-                DEFAULT_RESPONSE= "HTTP GET request has been received for electric";
+                response= "HTTP GET request has been received for electric";
             }
             else {
                 System.out.println("query is invalid");
-                DEFAULT_RESPONSE= "query is invalid";
+                response= "query is invalid";
+
             }
 
 
         }
 
-
-
-
-/*
-
-bu kod neden düzgün çalışmıyor araştırılacak.
-
-
-        if(query.equalsIgnoreCase("type=electric"))
-        {   System.out.println("HTTP GET request has been received for \"electric\"");
-            EngineType engineType= EngineType.ELECTRIC;
-            Engine engine= engineFactory1.produceEngine(engineType);
-            ((ElectricEngine) engine).getBrakeEnergyRegenerator();
-            DEFAULT_RESPONSE= "HTTP GET request has been received for ELECTRIC";
-
-        }
-
-        else if(query.equalsIgnoreCase("type=gas"))
-        {   System.out.println("HTTP GET request has been received for \"gas\"");
-            EngineType engineType= EngineType.ELECTRIC;
-            Engine engine= engineFactory1.produceEngine(engineType);
-            ((GasEngine) engine).getSparkPlug();
-            DEFAULT_RESPONSE= "HTTP GET request has been received for ELECTRIC";
-
-        }
-
-        else if(query.equalsIgnoreCase("type=diesel"))
-        {   System.out.println("HTTP GET request has been received for \"diesel\"");
-            EngineType engineType= EngineType.ELECTRIC;
-            Engine engine= engineFactory1.produceEngine(engineType);
-            ((DieselEngine) engine).getParticleFilter();
-
-            DEFAULT_RESPONSE= "HTTP GET request has been received for ELECTRIC";
-
-
-        }
-        else {
-            System.out.println("query is invalid");
-            DEFAULT_RESPONSE= "query is invalid";
-
-        }
-
-*/
-
-
-
+        return response;
     }
-
-
-
-
-
-
-
-
-
-
         //Your code goes here
 
 
@@ -130,13 +78,18 @@ bu kod neden düzgün çalışmıyor araştırılacak.
             context.setHandler(new HttpHandler() {
                 @Override
                 public void handle(HttpExchange exchange) throws IOException {
+                    System.out.println("HANDLED");
+
+
                     URI requestURI = exchange.getRequestURI();
 
                     //Pass request path and query to handleRequest Method
                     handleRequest(requestURI.getPath(), requestURI.getQuery());
 
                     //Create a default response message OK
-                    String response = "<html><link rel=\"icon\" href=\"data:,\">" + DEFAULT_RESPONSE + "</html>";
+                    String response = "<html><link rel=\"icon\" href=\"data:,\">" + handleRequest(requestURI.getPath(),requestURI.getQuery()) + "</html>";
+                    //DEFAULT_RESPONSE yerine handleRequest metodunun return ettiği string browser'da yazdırılıyor.
+
                     //Set 200 as request response CODE
                     exchange.sendResponseHeaders(200, response.getBytes().length);//response code and length
                     //Write OK to the response OutputStream
