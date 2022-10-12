@@ -9,7 +9,7 @@ import java.net.URI;
 public class EngineRequestHTTPServer {
     private HttpServer server;
     private int port;
-    private static  String DEFAULT_RESPONSE = "OK";
+  //  private static  String DEFAULT_RESPONSE = "OK";
 
     private  EngineFactory ef;
 
