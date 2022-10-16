@@ -32,26 +32,26 @@ public class BallWorld extends JFrame {
     private JPanel mainPanel;
 
 
-    private int width;
-    private int height;
+
     private BallWorld (Color ballColor) {
         // constructor for new ball world
-        // resize our frame
-        //setSize (FrameWidth, FrameHeight);
+
         setTitle ("Ball World");
 
+        //Tüm çizimler mainPanel üzerinde yapılıyor
         mainPanel = new JPanel(){
             @Override
+            //repaint çağrıldığında swing bu metodu çağırır
             protected void paintComponent(Graphics g) {
-               //super.paintComponent(g);
+                //Şekillerin köşelerinin düzgün gözükmesini sağlar
                 Graphics2D g2d = (Graphics2D) g;
                 g2d.setStroke(new BasicStroke(4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                g.clearRect(0,0,width,height);
 
+                //Önce tüm ekran temizlenir
+                g.clearRect(0,0, mainPanel.getWidth(), mainPanel.getHeight());
+                //Sonra top yeni yerinde çizilir
                 aBall.paint (g);
-
-
             }
         };
         mainPanel.setPreferredSize(new Dimension(FrameWidth,FrameHeight));
@@ -62,23 +62,19 @@ public class BallWorld extends JFrame {
         aBall.setColor (ballColor);
         aBall.setMotion (1.0, 1.0);
 
+        //Köşedeki çarpıya basılınca uygulamanın kapanması için
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-
+        //Timer start çağrıldığında, her on milisaniyede bir actionPerformed metodu çağrılır
         Timer timer = new Timer(10, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                width = mainPanel.getWidth();
-                height = mainPanel.getHeight();
+                //Topun konumu dx,dy kadar değiştirilir
                 aBall.move();
-
-                if ((aBall.x() < 0) || (aBall.x() > width))
-                    aBall.setMotion (-aBall.xMotion(), aBall.yMotion());
-                if ((aBall.y() < 0) || (aBall.y() > height))
-                    aBall.setMotion (aBall.xMotion(), -aBall.yMotion());
-
+                //Ekran dışına çıktıysa geri dönmesi sağlanır
+                aBall.checkCollision(mainPanel.getWidth(),mainPanel.getHeight());
+                //Ekrandaki değişikliklerin çizilmesi için repaint in çağrılması gerekir
                 mainPanel.repaint();
-                //repaint();
             }
         });
         timer.start();

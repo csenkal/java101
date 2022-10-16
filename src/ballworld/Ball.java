@@ -63,6 +63,12 @@ public class Ball {
 
     }
 
+    public void checkCollision(int width, int height){
+        if ((this.x() < 0) || (this.x() > width))
+            this.setMotion (-this.xMotion(), this.yMotion());
+        if ((this.y() < 0) || (this.y() > height))
+            this.setMotion (this.xMotion(), -this.yMotion());
+    }
     public void paint (Graphics g)
     {
         g.setColor (color);
