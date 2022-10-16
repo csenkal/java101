@@ -1,10 +1,13 @@
 package carworld;
 
+
 public class EngineFactory {
 
+    String Response;
 
     public Engine produceEngine(EngineType type){
         System.out.println(type + " Engine produced");
+        Response = type +" Engine produced";
         if(type.equals(EngineType.GAS))
             return new GasEngine();
         else if(type.equals(EngineType.DIESEL))
