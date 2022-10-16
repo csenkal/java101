@@ -7,11 +7,20 @@ import java.net.InetSocketAddress;
 import java.net.URI;
 
 public class EngineRequestHTTPServer {
+    private static String DEFAULT_RESPONSE;
+
+    public static void setDefaultResponse(String defaultResponse) {
+        DEFAULT_RESPONSE = defaultResponse;
+    }
+
+    public static String getDefaultResponse() {
+        return DEFAULT_RESPONSE;
+    }
+
     private HttpServer server;
     private int port;
-    private static final String DEFAULT_RESPONSE = "OK";
-    private EngineFactory ef;
 
+    private EngineFactory ef;
 
 
     public EngineRequestHTTPServer(int port, EngineFactory pEf) {
@@ -19,29 +28,32 @@ public class EngineRequestHTTPServer {
         this.ef = pEf;
     }
 
-    private void handleRequest(String requestPath, String query){
+    private void handleRequest(String requestPath, String query) {
         System.out.println(requestPath);
         System.out.println(query);
 
 
+        if (requestPath.equalsIgnoreCase("/order/type=gas")) {
+            // if(query.equalsIgnoreCase("type=gas")){
+            ef.produceEngine(EngineType.GAS);
+            setDefaultResponse("GAS ENGINE IS PRODUCED");
 
-        if(requestPath.equalsIgnoreCase("/order")){
-            if(query.equalsIgnoreCase("type=gas")){
-                ef.produceEngine(EngineType.GAS);
+        } else if (requestPath.equalsIgnoreCase("/order/type=diesel")) {
+            ef.produceEngine(EngineType.DIESEL);
+            setDefaultResponse("DIESEL ENGINE IS PRODUCED");
 
-            }
-            else if(query.equalsIgnoreCase("type=diesel")){
-                ef.produceEngine(EngineType.DIESEL);
-            }
-            else if(query.equalsIgnoreCase("type=electric")){
-                ef.produceEngine(EngineType.ELECTRIC);
-            }
-
+        } else if (requestPath.equalsIgnoreCase("/order/type=electric")) {
+            ef.produceEngine(EngineType.ELECTRIC);
+            DEFAULT_RESPONSE = "ELECTRIC ENGINE IS PRODUCED";
         }
+
+    }
+
+
         //Your code goes here
 
 
-    }
+
 
     public void stopServer(){
         if(server!=null)
@@ -60,15 +72,17 @@ public class EngineRequestHTTPServer {
         HttpContext context = server.createContext("/");
         //Attach a handler to the context
         context.setHandler(new HttpHandler() {
+
             @Override
             public void handle(HttpExchange exchange) throws IOException {
                 URI requestURI = exchange.getRequestURI();
 
                 //Pass request path and query to handleRequest Method
-                handleRequest(requestURI.getPath(),requestURI.getQuery());
+                handleRequest(requestURI.getPath(),requestURI.getPath());
+
 
                 //Create a default response message OK
-                String response = "<html><link rel=\"icon\" href=\"data:,\">" + DEFAULT_RESPONSE + "</html>";
+                String response = "<html><link rel=\"icon\" href=\"data:,\">" + getDefaultResponse() + "</html>";
                 //Set 200 as request response CODE
                 exchange.sendResponseHeaders(200, response.getBytes().length);//response code and length
                 //Write OK to the response OutputStream
