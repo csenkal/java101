@@ -48,12 +48,10 @@ public class BallWorld extends JFrame {
                 g2d.setStroke(new BasicStroke(4, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
                 g.clearRect(0,0,width,height);
+
                 aBall.paint (g);
 
-                if ((aBall.x() < 0) || (aBall.x() > width))
-                    aBall.setMotion (-aBall.xMotion(), aBall.yMotion());
-                if ((aBall.y() < 0) || (aBall.y() > height))
-                    aBall.setMotion (aBall.xMotion(), -aBall.yMotion());
+
             }
         };
         mainPanel.setPreferredSize(new Dimension(FrameWidth,FrameHeight));
@@ -67,12 +65,18 @@ public class BallWorld extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 
-        Timer timer = new Timer(100, new ActionListener() {
+        Timer timer = new Timer(10, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 width = mainPanel.getWidth();
                 height = mainPanel.getHeight();
                 aBall.move();
+
+                if ((aBall.x() < 0) || (aBall.x() > width))
+                    aBall.setMotion (-aBall.xMotion(), aBall.yMotion());
+                if ((aBall.y() < 0) || (aBall.y() > height))
+                    aBall.setMotion (aBall.xMotion(), -aBall.yMotion());
+
                 mainPanel.repaint();
                 //repaint();
             }
