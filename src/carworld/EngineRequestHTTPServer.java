@@ -8,74 +8,62 @@ import java.net.URI;
 
 public class EngineRequestHTTPServer {
     private HttpServer server;
-    final int port;
-    private static final String DEFAULT_RESPONSE = "OK";
-    private static String RESPONSE="OK";
-    EngineFactory ef = new EngineFactory();
+    private int port;
+    private static String DEFAULT_RESPONSE = "OK";
+    private EngineFactory ef;
 
 
-    public EngineRequestHTTPServer(int port) {
+
+    public EngineRequestHTTPServer(int port, EngineFactory pEf) {
         this.port = port;
+        this.ef = pEf;
     }
 
-    public void handleQuery (String query1)
+    private String getResponse()
     {
-        switch (query1)
-
-        {
-            case ("type=GAS"):
-                ef.produceEngine(EngineType.GAS);
-                RESPONSE = "GAS engine has been produced";
-                break;
-
-
-            case ("type=DIESEL"):
-                ef.produceEngine(EngineType.GAS);
-               RESPONSE = "DIESEL engine has been produced";
-               break;
-
-
-            case ("type=ELECTRIC"):
-                ef.produceEngine(EngineType.GAS);
-                RESPONSE = "ELECTRIC engine has been produced";
-                break;
-
-            default:
-                // Print statement corresponding case
-                RESPONSE= "Wrong order. Please try again.";
-                break;
-
-
-        }
+        return DEFAULT_RESPONSE;
 
     }
 
-    private void handleRequest(String requestPath, String query) {
-
-        RESPONSE=DEFAULT_RESPONSE;
+    private void handleRequest(String requestPath, String query){
         System.out.println(requestPath);
         System.out.println(query);
 
 
-        if (requestPath.equals("/order")) {
-            handleQuery(query);
-        }
-        else if (requestPath.equals("/stop")) {
-            stopServer();
+
+        if(requestPath.equalsIgnoreCase("/order")){
+
+            if(query.equalsIgnoreCase("type=gas")){
+                ef.produceEngine(EngineType.GAS);
+                DEFAULT_RESPONSE = "GAS engine was produced";
+            }
+            else if(query.equalsIgnoreCase("type=diesel")){
+                ef.produceEngine(EngineType.DIESEL);
+                DEFAULT_RESPONSE = "DIESEL engine was produced";
+            }
+            else if(query.equalsIgnoreCase("type=electric")){
+                ef.produceEngine(EngineType.ELECTRIC);
+                DEFAULT_RESPONSE = "ELECTRIC engine was produced";
+            }
+
         }
 
-        else {
-        RESPONSE= "wrong request";
+        if (requestPath.equalsIgnoreCase("/stop")){
+            server.stop(1);
+            System.out.println("server was stopped");
 
         }
+
+        if (!requestPath.equals("/stop") && !requestPath.equals("/order") ) {
+            DEFAULT_RESPONSE = "Wrong request";
+        }
+
 
     }
-
 
     public void stopServer(){
         if(server!=null)
             server.stop(1);
-        System.out.println("server closed");
     }
 
     public void startServer(){
@@ -98,7 +86,7 @@ public class EngineRequestHTTPServer {
                 handleRequest(requestURI.getPath(),requestURI.getQuery());
 
                 //Create a default response message OK
-                String response = "<html><link rel=\"icon\" href=\"data:,\">" + RESPONSE + "</html>";
+                String response = "<html><link rel=\"icon\" href=\"data:,\">" + getResponse() + "</html>";
                 //Set 200 as request response CODE
                 exchange.sendResponseHeaders(200, response.getBytes().length);//response code and length
                 //Write OK to the response OutputStream
@@ -112,6 +100,7 @@ public class EngineRequestHTTPServer {
         //So when the main comes to the last line, process does not terminate
         //Until you explicitly stop server
         server.start();
+        System.out.println("Engine Request HTTP Server is started listening at port:"+port);
     }
 
 
