@@ -9,14 +9,6 @@ import java.net.URI;
 public class EngineRequestHTTPServer {
     private static String DEFAULT_RESPONSE;
 
-    public static void setDefaultResponse(String defaultResponse) {
-        DEFAULT_RESPONSE = defaultResponse;
-    }
-
-    public static String getDefaultResponse() {
-        return DEFAULT_RESPONSE;
-    }
-
     private HttpServer server;
     private int port;
 
@@ -36,11 +28,11 @@ public class EngineRequestHTTPServer {
         if (requestPath.equalsIgnoreCase("/order/type=gas")) {
             // if(query.equalsIgnoreCase("type=gas")){
             ef.produceEngine(EngineType.GAS);
-            setDefaultResponse("GAS ENGINE IS PRODUCED");
+            DEFAULT_RESPONSE = "GAS ENGINE IS PRODUCED";
 
         } else if (requestPath.equalsIgnoreCase("/order/type=diesel")) {
             ef.produceEngine(EngineType.DIESEL);
-            setDefaultResponse("DIESEL ENGINE IS PRODUCED");
+            DEFAULT_RESPONSE = "DIESEL ENGINE IS PRODUCED";
 
         } else if (requestPath.equalsIgnoreCase("/order/type=electric")) {
             ef.produceEngine(EngineType.ELECTRIC);
@@ -48,11 +40,7 @@ public class EngineRequestHTTPServer {
         }
 
     }
-
-
         //Your code goes here
-
-
 
 
     public void stopServer(){
@@ -82,7 +70,7 @@ public class EngineRequestHTTPServer {
 
 
                 //Create a default response message OK
-                String response = "<html><link rel=\"icon\" href=\"data:,\">" + getDefaultResponse() + "</html>";
+                String response = "<html><link rel=\"icon\" href=\"data:,\">" + DEFAULT_RESPONSE + "</html>";
                 //Set 200 as request response CODE
                 exchange.sendResponseHeaders(200, response.getBytes().length);//response code and length
                 //Write OK to the response OutputStream
