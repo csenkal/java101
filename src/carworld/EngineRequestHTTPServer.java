@@ -20,26 +20,31 @@ public class EngineRequestHTTPServer {
         this.ef = pEf;
     }
 
-    private void handleRequest(String requestPath, String query) {
+    private String handleRequest(String requestPath, String query) {
         System.out.println(requestPath);
         System.out.println(query);
+
+        String browserResponse = null;
 
 
         if (requestPath.equalsIgnoreCase("/order/type=gas")) {
             // if(query.equalsIgnoreCase("type=gas")){
             ef.produceEngine(EngineType.GAS);
-            DEFAULT_RESPONSE = "GAS ENGINE IS PRODUCED";
+            browserResponse = "Gas Engine is produced";
 
         } else if (requestPath.equalsIgnoreCase("/order/type=diesel")) {
             ef.produceEngine(EngineType.DIESEL);
-            DEFAULT_RESPONSE = "DIESEL ENGINE IS PRODUCED";
+            browserResponse = "Diesel Engine is produced";
 
         } else if (requestPath.equalsIgnoreCase("/order/type=electric")) {
             ef.produceEngine(EngineType.ELECTRIC);
-            DEFAULT_RESPONSE = "ELECTRIC ENGINE IS PRODUCED";
+            browserResponse = "Electric Engine is produced";
         }
 
+        return browserResponse;
+
     }
+
         //Your code goes here
 
 
@@ -66,11 +71,12 @@ public class EngineRequestHTTPServer {
                 URI requestURI = exchange.getRequestURI();
 
                 //Pass request path and query to handleRequest Method
-                handleRequest(requestURI.getPath(),requestURI.getPath());
+                handleRequest(requestURI.getPath(), requestURI.getQuery());
+
 
 
                 //Create a default response message OK
-                String response = "<html><link rel=\"icon\" href=\"data:,\">" + DEFAULT_RESPONSE + "</html>";
+                String response = "<html><link rel=\"icon\" href=\"data:,\">" + handleRequest(requestURI.getPath(), requestURI.getQuery()) + "</html>";
                 //Set 200 as request response CODE
                 exchange.sendResponseHeaders(200, response.getBytes().length);//response code and length
                 //Write OK to the response OutputStream
