@@ -68,7 +68,7 @@ public class EngineRequestHTTPServer {
                 handleRequest(requestURI.getPath(),requestURI.getQuery());
 
                 //Create a default response message OK
-                String response = "<html><link rel=\"icon\" href=\"data:,\">" + DEFAULT_RESPONSE + "</html>";
+                String response = "<html><link rel=\"icon\" href=\"data:,\">" + DEFAULT_RESPONSE + "Engine produced" + "</html>";
                 //Set 200 as request response CODE
                 exchange.sendResponseHeaders(200, response.getBytes().length);//response code and length
                 //Write OK to the response OutputStream
