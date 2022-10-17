@@ -21,7 +21,7 @@ public class BallWorld extends JFrame {
 
     public static void main (String [ ] args)
     {
-        BallWorld world = new BallWorld (Color.red);
+        BallWorld world = new BallWorld (Color.green);
         world.setVisible (true);
     }
 
