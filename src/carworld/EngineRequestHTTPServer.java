@@ -9,77 +9,30 @@ import java.net.URI;
 public class EngineRequestHTTPServer {
     private HttpServer server;
     private int port;
-    private static final String DEFAULT_RESPONSE = "COULD NOT FIND THE RELEVANT ENGINE TYPE";
+    private static final String DEFAULT_RESPONSE = "OK";
+    private EngineFactory ef;
 
 
-   private  EngineFactory theEngineFactory;
 
-
-    public EngineRequestHTTPServer(int port) {
+    public EngineRequestHTTPServer(int port, EngineFactory pEf) {
         this.port = port;
-
-    }
-
-    public void setTheEngineFactory(EngineFactory theEngineFactory) {
-        this.theEngineFactory = theEngineFactory;
+        this.ef = pEf;
     }
 
     private String handleRequest(String requestPath, String query){
         System.out.println(requestPath);
         System.out.println(query);
 
+        String engineType = query.split("=")[1].toUpperCase();
+        System.out.println(engineType);
+
+
+        if(requestPath.equalsIgnoreCase("/order")){
+            ef.produceEngine(EngineType.valueOf(engineType));
+        }
         //Your code goes here
-        switch (requestPath){
-            // An order
-            case "/order":
-                return handleOrder(query);
-
-
-            case "/stop":
-                stopServer();
-                return "server stopped";
-
-            default:
-                // Print statement corresponding case
-                return "no match for path";
-
-        }
-
-    }
-
-    /**
-     * This function is used to handle the order requests
-     * @param query : Query string from http request
-     * @return the message to be displayed in the http response
-     */
-    public String handleOrder(String query){
-        String theMessage=null;
-
-        String[] split;
-        if (query!=null && (split=query.split("=")).length == 2) {
-            String typeStr = split[0];
-            String engineTypeStr = split[1];
-            System.out.println(engineTypeStr);
-            try {
-                if(typeStr!=null && typeStr.equals("type") && engineTypeStr!=null){
-                    EngineType engineType = EngineType.valueOf(engineTypeStr);
-                    Engine newEngine = theEngineFactory.produceEngine(engineType);
-                    //Create response message
-                    theMessage = engineTypeStr + " Engine is created " + newEngine.toString();
-
-                } else{
-                    //Create response message
-                    theMessage = "Bad Input !!";
-                }
-
-            } catch (IllegalArgumentException ex) {
-                System.out.println("Illegal argument is caught!!");
-            }
-        } else{
-            theMessage = "Bad Input !!";
-        }
-
-        return theMessage;
+        String response = engineType + " engine is produced";
+        return response;
     }
 
     public void stopServer(){
@@ -104,10 +57,10 @@ public class EngineRequestHTTPServer {
                 URI requestURI = exchange.getRequestURI();
 
                 //Pass request path and query to handleRequest Method
-                String message = handleRequest(requestURI.getPath(),requestURI.getQuery());
+                String res = handleRequest(requestURI.getPath(),requestURI.getQuery());
 
                 //Create a default response message OK
-                String response = "<html><link rel=\"icon\" href=\"data:,\">" + message + "</html>";
+                String response = "<html><link rel=\"icon\" href=\"data:,\">" + res + "</html>";
                 //Set 200 as request response CODE
                 exchange.sendResponseHeaders(200, response.getBytes().length);//response code and length
                 //Write OK to the response OutputStream
@@ -121,7 +74,7 @@ public class EngineRequestHTTPServer {
         //So when the main comes to the last line, process does not terminate
         //Until you explicitly stop server
         server.start();
-        System.out.printf("Engine Factory HTTP Server is listening at "+port);
+        System.out.println("Engine Request HTTP Server is started listening at port:"+port);
     }
 
 
