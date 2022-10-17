@@ -13,14 +13,14 @@ public class CarFactory {
 
 
 	public static void main (String[] args) {
+		EngineFactory ef = new EngineFactory();
 
-		EngineFactory engineFactory = new EngineFactory();
-		EngineRequestHTTPServer server = new EngineRequestHTTPServer(8085,engineFactory); //
-		server.startServer();
-
-
+		EngineRequestHTTPServer server = new EngineRequestHTTPServer(8085, ef);
+		ef.setWebService(server);
 
 
+
+		ef.getWebService().startServer();
 
 
 		/*
