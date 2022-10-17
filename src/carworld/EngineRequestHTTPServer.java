@@ -9,7 +9,7 @@ import java.net.URI;
 public class EngineRequestHTTPServer {
     private HttpServer server;
     private int port;
-    private static final String DEFAULT_RESPONSE = "OK";
+    private static final String DEFAULT_RESPONSE = EngineType.GAS.name();
     private EngineFactory ef;
 
 
