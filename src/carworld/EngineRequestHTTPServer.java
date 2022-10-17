@@ -19,28 +19,20 @@ public class EngineRequestHTTPServer {
         this.ef = pEf;
     }
 
-    private void handleRequest(String requestPath, String query){
+    private String handleRequest(String requestPath, String query){
         System.out.println(requestPath);
         System.out.println(query);
 
+        String engineType = query.split("=")[1].toUpperCase();
+        System.out.println(engineType);
 
 
         if(requestPath.equalsIgnoreCase("/order")){
-            if(query.equalsIgnoreCase("type=gas")){
-                ef.produceEngine(EngineType.GAS);
-
-            }
-            else if(query.equalsIgnoreCase("type=diesel")){
-                ef.produceEngine(EngineType.DIESEL);
-            }
-            else if(query.equalsIgnoreCase("type=electric")){
-                ef.produceEngine(EngineType.ELECTRIC);
-            }
-
+            ef.produceEngine(EngineType.valueOf(engineType));
         }
         //Your code goes here
-
-
+        String response = engineType + " engine is produced";
+        return response;
     }
 
     public void stopServer(){
@@ -65,10 +57,10 @@ public class EngineRequestHTTPServer {
                 URI requestURI = exchange.getRequestURI();
 
                 //Pass request path and query to handleRequest Method
-                handleRequest(requestURI.getPath(),requestURI.getQuery());
+                String res = handleRequest(requestURI.getPath(),requestURI.getQuery());
 
                 //Create a default response message OK
-                String response = "<html><link rel=\"icon\" href=\"data:,\">" + DEFAULT_RESPONSE + "</html>";
+                String response = "<html><link rel=\"icon\" href=\"data:,\">" + res + "</html>";
                 //Set 200 as request response CODE
                 exchange.sendResponseHeaders(200, response.getBytes().length);//response code and length
                 //Write OK to the response OutputStream
