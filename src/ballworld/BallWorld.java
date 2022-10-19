@@ -16,6 +16,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Random;
 
 
@@ -30,8 +31,8 @@ public class BallWorld extends JFrame {
     private static final int FrameWidth = 600;
     private static final int FrameHeight = 400;
     //private Ball aBall;
-    ArrayList<Ball> Balls = new ArrayList<Ball>();
-
+    LinkedList<Ball> Balls = new LinkedList<>();
+    //ArrayList LinkedList olarak değiştirildi
     private JPanel mainPanel;
 
 
@@ -73,6 +74,7 @@ public class BallWorld extends JFrame {
         {
             Random rand = new Random();
             Color color = new Color(rand.nextInt(0xFFFFFF));
+            //her top için ayrı bir random renk üretiliyor
 
 
 
