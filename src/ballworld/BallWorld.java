@@ -15,14 +15,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
 
 
 public class BallWorld extends JFrame {
 
-    public static void main (String [ ] args)
-    {
-        BallWorld world = new BallWorld (Color.red);
-        world.setVisible (true);
+    public static void main(String[] args) {
+        BallWorld world = new BallWorld(Color.red);
+        world.setVisible(true);
     }
 
     private static final int FrameWidth = 600;
@@ -30,16 +30,18 @@ public class BallWorld extends JFrame {
     private Ball aBall;
 
     private JPanel mainPanel;
+    private int BallNumber = 5;
+    LinkedList<Ball> bList = new LinkedList<>();
 
 
 
-    private BallWorld (Color ballColor) {
+    private BallWorld(Color ballColor) {
         // constructor for new ball world
 
-        setTitle ("Ball World");
+        setTitle("Ball World");
 
         //Tüm çizimler mainPanel üzerinde yapılıyor
-        mainPanel = new JPanel(){
+        mainPanel = new JPanel() {
             @Override
             //repaint çağrıldığında swing bu metodu çağırır
             protected void paintComponent(Graphics g) {
@@ -49,19 +51,28 @@ public class BallWorld extends JFrame {
                 g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
                 //Önce tüm ekran temizlenir
-                g.clearRect(0,0, mainPanel.getWidth(), mainPanel.getHeight());
+                g.clearRect(0, 0, mainPanel.getWidth(), mainPanel.getHeight());
                 //Sonra top yeni yerinde çizilir
-                aBall.paint (g);
+
+                for (Ball aBall : bList) {
+                    aBall.paint(g);
+                }
+
             }
         };
-        mainPanel.setPreferredSize(new Dimension(FrameWidth,FrameHeight));
+        mainPanel.setPreferredSize(new Dimension(FrameWidth, FrameHeight));
         this.add(mainPanel);
         this.pack();
         // initialize object data field
-        aBall = new Ball (10, 15, 20);
-        aBall.setColor (ballColor);
-        aBall.setMotion (1.0, 1.0);
-
+        //aBall = new Ball(10, 15, 20);
+        //aBall.setColor(ballColor);
+        //aBall.setMotion(1.0, 1.0);
+        for (int i = 0; i < BallNumber; i++) {
+            Ball aBall= new Ball(10 +i*100,15 +i/10,20);// Color'ı ball'a 4. parametre olarak tanımlayıp burada set'ledim ama verdiğim renk yerine siyah bastı?
+            aBall.setColor(Color.ORANGE);
+            aBall.setMotion(1.0*10,2.0*10);
+            bList.add(aBall);
+        }
         //Köşedeki çarpıya basılınca uygulamanın kapanması için
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -70,14 +81,17 @@ public class BallWorld extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Topun konumu dx,dy kadar değiştirilir
-                aBall.move();
-                //Ekran dışına çıktıysa geri dönmesi sağlanır
-                aBall.checkCollision(mainPanel.getWidth(),mainPanel.getHeight());
+                for (Ball aBall : bList) {
+                    aBall.move();
+                    //Ekran dışına çıktıysa geri dönmesi sağlanır
+                    aBall.checkCollision(mainPanel.getWidth(), mainPanel.getHeight());
+                }
                 //Ekrandaki değişikliklerin çizilmesi için repaint in çağrılması gerekir
                 mainPanel.repaint();
             }
         });
         timer.start();
     }
-
 }
+
+
