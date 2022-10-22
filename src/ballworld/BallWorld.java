@@ -15,6 +15,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 
 public class BallWorld extends JFrame {
@@ -23,7 +25,20 @@ public class BallWorld extends JFrame {
     {
         BallWorld world = new BallWorld (Color.red);
         world.setVisible (true);
+        LinkedList<Ball> aBall = new LinkedList<>();
+        Ball b1 = new Ball(10, 15, 20);
+        Ball b2 = new Ball(12, 17, 22);
+        Ball b3 = new Ball(14, 19, 24);
+        Ball b4 = new Ball(16, 21, 26);
+        Ball b5 = new Ball(18, 23, 28);
+        aBall.add(b1);
+        aBall.add(b2);
+        aBall.add(b3);
+        aBall.add(b4);
+        aBall.add(b5);
+
     }
+
 
     private static final int FrameWidth = 600;
     private static final int FrameHeight = 400;
