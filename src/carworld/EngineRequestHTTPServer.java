@@ -13,37 +13,25 @@ public class EngineRequestHTTPServer {
     private EngineFactory ef;
 
 
+
     public EngineRequestHTTPServer(int port, EngineFactory pEf) {
         this.port = port;
-        this.ef= pEf;
+        this.ef = pEf;
     }
 
     private String handleRequest(String requestPath, String query){
         System.out.println(requestPath);
         System.out.println(query);
 
-        String eType = query.split("=")[1];
-        String response = eType + " engine  is produced";
+        String engineType = query.split("=")[1].toUpperCase();
+        System.out.println(engineType);
 
 
-        if(requestPath.equalsIgnoreCase("/order")) {
-            if (query.equalsIgnoreCase("type=gas")) {
-                ef.produceEngine(EngineType. GAS);
-
-            }
-            else if (query.equalsIgnoreCase("type=diesel")) {
-                ef.produceEngine(EngineType.DIESEL);
-            }
-
-                else if (query.equalsIgnoreCase("type=electric")) {
-                ef.produceEngine(EngineType.ELECTRIC);
-            }
-
+        if(requestPath.equalsIgnoreCase("/order")){
+            ef.produceEngine(EngineType.valueOf(engineType));
         }
-
-
         //Your code goes here
-
+        String response = engineType + " engine is produced";
         return response;
     }
 
@@ -69,9 +57,7 @@ public class EngineRequestHTTPServer {
                 URI requestURI = exchange.getRequestURI();
 
                 //Pass request path and query to handleRequest Method
-                String res= handleRequest(requestURI.getPath(),requestURI.getQuery());
-
-
+                handleRequest(requestURI.getPath(),requestURI.getQuery());
 
                 //Create a default response message OK
                 String response = "<html><link rel=\"icon\" href=\"data:,\">" + res + "</html>";
@@ -88,6 +74,7 @@ public class EngineRequestHTTPServer {
         //So when the main comes to the last line, process does not terminate
         //Until you explicitly stop server
         server.start();
+        System.out.println("Engine Request HTTP Server is started listening at port:"+port);
     }
 
 
