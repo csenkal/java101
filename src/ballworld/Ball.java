@@ -19,12 +19,12 @@ public class Ball {
     protected double dy;
     protected Color color;
 
-    public Ball (int x, int y, int r)
+    public Ball (int x, int y, int r, Color color1, double dx1, double dy1)
     {
         location = new Rectangle(x-r, y-r, 2*r, 2*r);
-        dx = 0;
-        dy = 0;
-        color = Color.blue;
+        this.dx = dx1;
+        this.dy = dy1;
+        this.color = color1;
     }
 
     // functions that set attributes

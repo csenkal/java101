@@ -27,7 +27,7 @@ public class BallWorld extends JFrame {
 
     private static final int FrameWidth = 600;
     private static final int FrameHeight = 400;
-    private Ball aBall;
+    private Ball[] aBall = new Ball[5];
 
     private JPanel mainPanel;
 
@@ -51,16 +51,25 @@ public class BallWorld extends JFrame {
                 //Önce tüm ekran temizlenir
                 g.clearRect(0,0, mainPanel.getWidth(), mainPanel.getHeight());
                 //Sonra top yeni yerinde çizilir
-                aBall.paint (g);
+
+                for (int i = 0; i < 5; i++) {
+                    aBall[i].paint(g);
+                }
+
             }
         };
         mainPanel.setPreferredSize(new Dimension(FrameWidth,FrameHeight));
         this.add(mainPanel);
         this.pack();
+
         // initialize object data field
-        aBall = new Ball (10, 15, 20);
-        aBall.setColor (ballColor);
-        aBall.setMotion (1.0, 1.0);
+
+
+            aBall[0] = new Ball(10, 15, 20, Color.RED, 1.0, 2.0);
+            aBall[1] = new Ball(10, 15, 20, Color.BLUE, 2.0, 2.0);
+            aBall[2] = new Ball(10, 15, 20, Color.GREEN, 1.3, 3.0);
+            aBall[3] = new Ball(10, 15, 20, Color.YELLOW, 0.5, 2.0);
+            aBall[4] = new Ball(10, 15, 20, Color.BLACK, 4.0, 2.7);
 
         //Köşedeki çarpıya basılınca uygulamanın kapanması için
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -69,13 +78,19 @@ public class BallWorld extends JFrame {
         Timer timer = new Timer(10, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //Topun konumu dx,dy kadar değiştirilir
-                aBall.move();
-                //Ekran dışına çıktıysa geri dönmesi sağlanır
-                aBall.checkCollision(mainPanel.getWidth(),mainPanel.getHeight());
-                //Ekrandaki değişikliklerin çizilmesi için repaint in çağrılması gerekir
-                mainPanel.repaint();
+
+                    //Topun konumu dx,dy kadar değiştirilir
+                for (int i = 0; i < 5; i++) {
+                    aBall[i].move();
+                }
+                for (int i = 0; i < 5; i++) {
+                    //Ekran dışına çıktıysa geri dönmesi sağlanır
+                    aBall[i].checkCollision(mainPanel.getWidth(), mainPanel.getHeight());
+                    //Ekrandaki değişikliklerin çizilmesi için repaint in çağrılması gerekir
+                }
+                    mainPanel.repaint();
             }
+
         });
         timer.start();
     }
