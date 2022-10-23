@@ -64,9 +64,9 @@ public class BallWorld extends JFrame {
 
         // initialize object data field
         balls.add (new Ball(10, 15, 20, Color.RED, 3.0, 1.0));
-        balls.add (new Ball(10, 15, 20, Color.GREEN, 4.0, 2.0));
-        balls.add (new Ball(10, 15, 20, Color.YELLOW, 5.0, 3.0));
-        balls.add (new Ball(10, 15, 20, Color.BLUE, 1.3, 4.0));
+        balls.add (new Ball(10, 15, 20, Color.GREEN, 14.0, 2.0));
+        balls.add (new Ball(10, 15, 20, Color.YELLOW, 15.0, 3.0));
+        balls.add (new Ball(10, 15, 20, Color.BLUE, 10.2, 14.0));
         balls.add (new Ball(10, 15, 20, Color.PINK, 2.8, 5.0));
 
         //Köşedeki çarpıya basılınca uygulamanın kapanması için
