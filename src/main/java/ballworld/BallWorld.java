@@ -63,11 +63,11 @@ public class BallWorld extends JFrame {
         this.pack();
 
         // initialize object data field
-        balls.add (new Ball(10, 15, 20, Color.RED, 3.0, 2.0));
+        balls.add (new Ball(10, 15, 20, Color.RED, 3.0, 1.0));
         balls.add (new Ball(10, 15, 20, Color.GREEN, 4.0, 2.0));
-        balls.add (new Ball(10, 15, 20, Color.YELLOW, 5.0, 2.0));
-        balls.add (new Ball(10, 15, 20, Color.BLUE, 1.3, 2.0));
-        balls.add (new Ball(10, 15, 20, Color.PINK, 2.8, 2.0));
+        balls.add (new Ball(10, 15, 20, Color.YELLOW, 5.0, 3.0));
+        balls.add (new Ball(10, 15, 20, Color.BLUE, 1.3, 4.0));
+        balls.add (new Ball(10, 15, 20, Color.PINK, 2.8, 5.0));
 
         //Köşedeki çarpıya basılınca uygulamanın kapanması için
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -83,9 +83,9 @@ public class BallWorld extends JFrame {
                     aBall.move();
                     //Ekran dışına çıktıysa geri dönmesi sağlanır
                     aBall.checkCollision(mainPanel.getWidth(), mainPanel.getHeight());
-                    //Ekrandaki değişikliklerin çizilmesi için repaint in çağrılması gerekir
-                    mainPanel.repaint();
                 }
+                //Ekrandaki değişikliklerin çizilmesi için repaint in çağrılması gerekir
+                mainPanel.repaint();
 
             }
 
