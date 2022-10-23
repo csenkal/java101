@@ -9,26 +9,30 @@ import java.net.URI;
 public class EngineRequestHTTPServer {
     private HttpServer server;
     private int port;
+    private static final String DEFAULT_RESPONSE = "OK";
     private EngineFactory ef;
-    public static String DEFAULT_RESPONSE = "OK";
+
+
 
     public EngineRequestHTTPServer(int port, EngineFactory pEf) {
         this.port = port;
         this.ef = pEf;
     }
 
+    private String handleRequest(String requestPath, String query){
+        System.out.println(requestPath);
+        System.out.println(query);
 
-    public String handleRequest(String requestPath, String query){
-
-        String query2 = query.substring(query.lastIndexOf("=") + 1);
+        String engineType = query.split("=")[1].toUpperCase();
+        System.out.println(engineType);
 
 
         if(requestPath.equalsIgnoreCase("/order")){
-            ef.produceEngine(EngineType.valueOf(query2));
+            ef.produceEngine(EngineType.valueOf(engineType));
         }
         //Your code goes here
-
-        return ef.Response;
+        String response = engineType + " engine is produced";
+        return response;
     }
 
     public void stopServer(){
@@ -53,10 +57,10 @@ public class EngineRequestHTTPServer {
                 URI requestURI = exchange.getRequestURI();
 
                 //Pass request path and query to handleRequest Method
-                handleRequest(requestURI.getPath(),requestURI.getQuery());
+                String res = handleRequest(requestURI.getPath(),requestURI.getQuery());
 
                 //Create a default response message OK
-                String response = "<html><link rel=\"icon\" href=\"data:,\">" + handleRequest(requestURI.getPath(),requestURI.getQuery()) + "</html>";
+                String response = "<html><link rel=\"icon\" href=\"data:,\">" + res + "</html>";
                 //Set 200 as request response CODE
                 exchange.sendResponseHeaders(200, response.getBytes().length);//response code and length
                 //Write OK to the response OutputStream
@@ -70,6 +74,7 @@ public class EngineRequestHTTPServer {
         //So when the main comes to the last line, process does not terminate
         //Until you explicitly stop server
         server.start();
+        System.out.println("Engine Request HTTP Server is started listening at port:"+port);
     }
 
 
