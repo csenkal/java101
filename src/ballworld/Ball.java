@@ -69,9 +69,22 @@ public class Ball {
         if ((this.y() < 0) || (this.y() > height))
             this.setMotion (this.xMotion(), -this.yMotion());
     }
+
+
+/*
+    public void checkCollisionBall(int xcoordinateball1, int ycoordinateball1,int xcoordinateball2,int ycoordinateball2)
+    {
+        if ( || (this.x() > width))
+            this.setMotion (-this.xMotion(), this.yMotion());
+        if ((this.y() < 0) || (this.y() > height))
+            this.setMotion (this.xMotion(), -this.yMotion());
+    }
+*/
+
     public void paint (Graphics g)
     {
         g.setColor (color);
         g.fillOval (location.x, location.y, location.width, location.height);
+
     }
 }

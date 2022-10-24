@@ -15,29 +15,23 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Random;
 
 
-public class BallWorld extends JFrame {
-
-    public static void main (String [ ] args)
-    {
-        BallWorld world = new BallWorld (Color.green);
-        world.setVisible (true);
-    }
+public class ShapeWorld extends JFrame {
 
     private static final int FrameWidth = 600;
     private static final int FrameHeight = 400;
     //private Ball aBall;
     LinkedList<Ball> Balls = new LinkedList<>();
+    LinkedList<Square> Squares = new LinkedList<>();
     //ArrayList LinkedList olarak değiştirildi
     private JPanel mainPanel;
 
 
 
-    private BallWorld (Color ballColor) {
+    public ShapeWorld(Color ballColor) {
         // constructor for new ball world
 
         setTitle ("Ball World");
@@ -62,6 +56,13 @@ public class BallWorld extends JFrame {
                     ball.paint(g);
                 }
 
+                for(Square squares :Squares)
+                {
+                    squares.paint(g);
+                }
+
+
+
                 //aBall.paint (g);
             }
         };
@@ -75,16 +76,35 @@ public class BallWorld extends JFrame {
             Random rand = new Random();
             Color color = new Color(rand.nextInt(0xFFFFFF));
             //her top için ayrı bir random renk üretiliyor
-
-
-
-
-
             Balls.add(new Ball(10,15,20));
             Balls.get(x).setColor(color);
             Balls.get(x).setMotion((x+1)*3,(x+1)*3);
 
         }
+
+
+
+
+        for(int x=0;x<5;x++)
+        {
+            Random rand = new Random();
+            Color color = new Color(rand.nextInt(0xFFFFFF));
+            //her top için ayrı bir random renk üretiliyor
+            Squares.add(new Square(40,10,12));
+            Squares.get(x).setColor(color);
+            Squares.get(x).setMotion((x+0.1)*5,(x+0.1)*2);
+
+
+        }
+
+
+
+
+
+
+
+
+
 
 
         //Köşedeki çarpıya basılınca uygulamanın kapanması için
@@ -101,6 +121,21 @@ public class BallWorld extends JFrame {
                     ball.move();
                     ball.checkCollision(mainPanel.getWidth(),mainPanel.getHeight());
                 }
+
+
+                for(Square squares :Squares)
+                {
+                    squares.move();
+                    squares.checkCollision(mainPanel.getWidth(),mainPanel.getHeight());
+                }
+
+
+
+               // Balls.get(0).checkCollisionBall(Balls.get(0).x(),Balls.get(0).y(), Balls.get(1).x(),Balls.get(1).y());
+                //System.out.println(Balls.get(0).x());
+
+
+
 
 
                 //Ekran dışına çıktıysa geri dönmesi sağlanır
