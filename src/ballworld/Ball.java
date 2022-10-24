@@ -15,16 +15,19 @@ import java.awt.*;
 
 public class Ball {
     protected Rectangle location;
+
+
     protected double dx;
     protected double dy;
     protected Color color;
 
-    public Ball (int x, int y, int r)
+
+    public  Ball (int x, int y, int r)
     {
         location = new Rectangle(x-r, y-r, 2*r, 2*r);
         dx = 0;
         dy = 0;
-        color = Color.blue;
+        color = Color.green;
     }
 
     // functions that set attributes
@@ -71,7 +74,9 @@ public class Ball {
     }
     public void paint (Graphics g)
     {
-        g.setColor (color);
-        g.fillOval (location.x, location.y, location.width, location.height);
+
+            g.setColor(color);
+            g.fillOval(location.x, location.y, location.width, location.height);
+
     }
 }
