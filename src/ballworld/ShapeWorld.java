@@ -71,7 +71,7 @@ public class ShapeWorld extends JFrame {
         this.pack();
         // initialize object data field
 
-        for(int x=0;x<5;x++)
+        for(int x=0;x<3;x++)
         {
             Random rand = new Random();
             Color color = new Color(rand.nextInt(0xFFFFFF));
@@ -85,14 +85,14 @@ public class ShapeWorld extends JFrame {
 
 
 
-        for(int x=0;x<5;x++)
+        for(int x=0;x<2;x++)
         {
             Random rand = new Random();
             Color color = new Color(rand.nextInt(0xFFFFFF));
             //her top için ayrı bir random renk üretiliyor
-            Squares.add(new Square(40,10,12));
+            Squares.add(new Square(400,100,15));
             Squares.get(x).setColor(color);
-            Squares.get(x).setMotion((x+0.1)*5,(x+0.1)*2);
+            Squares.get(x).setMotion((x+0.5)*5,(x+0.5)*2);
 
 
         }
