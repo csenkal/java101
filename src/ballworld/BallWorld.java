@@ -15,10 +15,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
-import java.util.Random;
-
-import static java.lang.Math.random;
+import java.util.LinkedList;
 
 
 public class BallWorld extends JFrame {
@@ -31,7 +28,9 @@ public class BallWorld extends JFrame {
 
     private static final int FrameWidth = 600;
     private static final int FrameHeight = 400;
-    private ArrayList<Ball> ballList;
+
+    private LinkedList<Ball> balls;
+
 
     private JPanel mainPanel;
 
@@ -39,7 +38,8 @@ public class BallWorld extends JFrame {
 
     private BallWorld (Color ballColor) {
         // constructor for new ball world
-        ballList = new ArrayList<Ball>();
+
+        balls = new LinkedList<Ball>();
         setTitle ("Ball World");
 
         //Tüm çizimler mainPanel üzerinde yapılıyor
@@ -55,26 +55,26 @@ public class BallWorld extends JFrame {
                 //Önce tüm ekran temizlenir
                 g.clearRect(0,0, mainPanel.getWidth(), mainPanel.getHeight());
                 //Sonra top yeni yerinde çizilir
-                for (Ball aBall:ballList){
+
+                for (Ball aBall: balls) {
                     aBall.paint (g);
                 }
+
 
             }
         };
         mainPanel.setPreferredSize(new Dimension(FrameWidth,FrameHeight));
         this.add(mainPanel);
         this.pack();
+        // initialize object data field
+        Color[] colors = new Color[]{Color.red, Color.black, Color.blue, Color.pink, Color.cyan};
+        for(int i=0; i<5; i++){
+            Ball aBall = new Ball ((i*10)+10, (i*10)+15, i*5+10);
+            aBall.setColor (colors[i]);
+            aBall.setMotion (i+1, i+1);
 
-        for(int i=0;i<5;i++){
-            // initialize object data field
-            Ball aBall = new Ball (10 + i*50, 15 + i*50, 20);
-            Random rand = new Random();
-            float r = rand.nextFloat();
-            float g = rand.nextFloat();
-            float b = rand.nextFloat();
-            aBall.setColor (new Color(r, g, b));
-            aBall.setMotion (10*(-1.0 + 2*random()), 10*(-1.0 + 2*random()));
-            ballList.add(aBall);
+            balls.add(aBall);
+
         }
 
 
@@ -85,7 +85,7 @@ public class BallWorld extends JFrame {
         Timer timer = new Timer(10, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for(Ball aBall:ballList){
+                for (Ball aBall: balls) {
                     //Topun konumu dx,dy kadar değiştirilir
                     aBall.move();
                     //Ekran dışına çıktıysa geri dönmesi sağlanır
