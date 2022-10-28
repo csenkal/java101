@@ -63,12 +63,70 @@ public class Ball {
 
     }
 
+    public double getMass() {
+        return 2 * radius() * radius() * radius() / 1000f;
+    }
+
+
+
+
+
     public void checkCollision(int width, int height){
-        if ((this.x() < 0) || (this.x() > width))
+        if ((this.x()-radius() < 0) || (this.x()+radius() > width))
             this.setMotion (-this.xMotion(), this.yMotion());
-        if ((this.y() < 0) || (this.y() > height))
+        if ((this.y()-radius() < 0) || (this.y()+radius() > height))
             this.setMotion (this.xMotion(), -this.yMotion());
     }
+
+
+    public static void intersect(Ball a, Ball b) {
+        //ref http://gamedev.stackexchange.com/questions/20516/ball-collisions-sticking-together
+        double xDist, yDist;
+        xDist = a.x() - b.x();
+        yDist = a.y() - b.y();
+        double distSquared = xDist * xDist + yDist * yDist;
+        // Check the squared distances instead of the the distances, same
+        // result, but avoids a square root.
+        if (distSquared <= (a.radius() + b.radius()) * (a.radius() + b.radius())) {
+
+            System.out.println("!!! COLLISION !!!!");
+
+            double speedXocity = b.xMotion() - a.yMotion();
+            double speedYocity = b.xMotion() - a.yMotion();
+            double dotProduct = xDist * speedXocity + yDist * speedYocity;
+            // Neat vector maths, used for checking if the objects moves towards
+            // one another.
+            if (dotProduct > 0) {
+
+                double collisionScale = dotProduct / distSquared;
+                double xCollision = xDist * collisionScale;
+                double yCollision = yDist * collisionScale;
+                // The Collision vector is the speed difference projected on the
+                // Dist vector,
+                // thus it is the component of the speed difference needed for
+                // the collision.
+                double combinedMass = a.getMass() + b.getMass();
+                double collisionWeightA = 2 * b.getMass() / combinedMass;
+                double collisionWeightB = 2 * a.getMass() / combinedMass;
+                a.dx += (collisionWeightA * xCollision);
+                a.dy += (collisionWeightA * yCollision);
+
+                b.dx -= (collisionWeightB * xCollision);
+                b.dy -= (collisionWeightB * yCollision);
+
+
+            }
+
+
+        }}
+
+
+
+
+
+
+
+
 
 
 /*

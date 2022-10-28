@@ -29,6 +29,8 @@ public class ShapeWorld extends JFrame {
     //ArrayList LinkedList olarak değiştirildi
     private JPanel mainPanel;
 
+    Ball collisionchecker;
+
 
 
     public ShapeWorld(Color ballColor) {
@@ -76,7 +78,7 @@ public class ShapeWorld extends JFrame {
             Random rand = new Random();
             Color color = new Color(rand.nextInt(0xFFFFFF));
             //her top için ayrı bir random renk üretiliyor
-            Balls.add(new Ball(10,15,20));
+            Balls.add(new Ball(100,150,20));
             Balls.get(x).setColor(color);
             Balls.get(x).setMotion((x+1)*3,(x+1)*3);
 
@@ -128,6 +130,18 @@ public class ShapeWorld extends JFrame {
                     squares.move();
                     squares.checkCollision(mainPanel.getWidth(),mainPanel.getHeight());
                 }
+
+
+                for (int i = 0; i < Balls.size(); i++) {
+                    for (int j = 0; j < Balls.size(); j++) {
+                        if (i < j) {
+
+                            collisionchecker.intersect(Balls.get(i), Balls.get(j));
+                        }
+                    }
+                }
+
+
 
 
 
