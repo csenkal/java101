@@ -7,12 +7,11 @@ import java.net.InetSocketAddress;
 import java.net.URI;
 
 public class EngineRequestHTTPServer {
-    private static String DEFAULT_RESPONSE;
-
     private HttpServer server;
     private int port;
-
+    private static final String DEFAULT_RESPONSE = "OK";
     private EngineFactory ef;
+
 
 
     public EngineRequestHTTPServer(int port, EngineFactory pEf) {
@@ -20,33 +19,21 @@ public class EngineRequestHTTPServer {
         this.ef = pEf;
     }
 
-    private String handleRequest(String requestPath, String query) {
+    private String handleRequest(String requestPath, String query){
         System.out.println(requestPath);
         System.out.println(query);
 
-        String browserResponse = null;
+        String engineType = query.split("=")[1].toUpperCase();
+        System.out.println(engineType);
 
 
-        if (requestPath.equalsIgnoreCase("/order/type=gas")) {
-            // if(query.equalsIgnoreCase("type=gas")){
-            ef.produceEngine(EngineType.GAS);
-            browserResponse = "Gas Engine is produced";
-
-        } else if (requestPath.equalsIgnoreCase("/order/type=diesel")) {
-            ef.produceEngine(EngineType.DIESEL);
-            browserResponse = "Diesel Engine is produced";
-
-        } else if (requestPath.equalsIgnoreCase("/order/type=electric")) {
-            ef.produceEngine(EngineType.ELECTRIC);
-            browserResponse = "Electric Engine is produced";
+        if(requestPath.equalsIgnoreCase("/order")){
+            ef.produceEngine(EngineType.valueOf(engineType));
         }
-
-        return browserResponse;
-
-    }
-
         //Your code goes here
-
+        String response = engineType + " engine is produced";
+        return response;
+    }
 
     public void stopServer(){
         if(server!=null)
@@ -65,18 +52,15 @@ public class EngineRequestHTTPServer {
         HttpContext context = server.createContext("/");
         //Attach a handler to the context
         context.setHandler(new HttpHandler() {
-
             @Override
             public void handle(HttpExchange exchange) throws IOException {
                 URI requestURI = exchange.getRequestURI();
 
                 //Pass request path and query to handleRequest Method
-                handleRequest(requestURI.getPath(), requestURI.getQuery());
-
-
+                String res = handleRequest(requestURI.getPath(),requestURI.getQuery());
 
                 //Create a default response message OK
-                String response = "<html><link rel=\"icon\" href=\"data:,\">" + handleRequest(requestURI.getPath(), requestURI.getQuery()) + "</html>";
+                String response = "<html><link rel=\"icon\" href=\"data:,\">" + res + "</html>";
                 //Set 200 as request response CODE
                 exchange.sendResponseHeaders(200, response.getBytes().length);//response code and length
                 //Write OK to the response OutputStream
