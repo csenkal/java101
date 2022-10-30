@@ -9,6 +9,7 @@ package ballworld;
 //
 //	see ftp://ftp.cs.orst.edu/pub/budd/java/ReadMe.html
 //	for further information
+//
 
 import javax.swing.*;
 import java.awt.*;
@@ -27,14 +28,18 @@ public class BallWorld extends JFrame {
 
     private static final int FrameWidth = 600;
     private static final int FrameHeight = 400;
-    private Ball aBall;
-    LinkedList <Ball> balls = new LinkedList<Ball>();
+
+    private LinkedList<RectangleBall> balls;
+
 
     private JPanel mainPanel;
+
+
 
     private BallWorld (Color ballColor) {
         // constructor for new ball world
 
+        balls = new LinkedList<RectangleBall>();
         setTitle ("Ball World");
 
         //Tüm çizimler mainPanel üzerinde yapılıyor
@@ -51,23 +56,27 @@ public class BallWorld extends JFrame {
                 g.clearRect(0,0, mainPanel.getWidth(), mainPanel.getHeight());
                 //Sonra top yeni yerinde çizilir
 
-                for (Ball aBall : balls) {
-                    aBall.paint(g);
-
-                }
+                for (RectangleBall aBall: balls) {
+                    aBall.paint (g);
                 }
 
+
+            }
         };
         mainPanel.setPreferredSize(new Dimension(FrameWidth,FrameHeight));
         this.add(mainPanel);
         this.pack();
-
         // initialize object data field
-        balls.add (new Ball(10, 15, 20, Color.RED, 3.0, 1.0));
-        balls.add (new Ball(10, 15, 20, Color.GREEN, 14.0, 2.0));
-        balls.add (new Ball(10, 15, 20, Color.YELLOW, 15.0, 3.0));
-        balls.add (new Ball(10, 15, 20, Color.BLUE, 10.2, 14.0));
-        balls.add (new Ball(10, 15, 20, Color.PINK, 2.8, 5.0));
+        Color[] colors = new Color[]{Color.red, Color.black, Color.blue, Color.pink, Color.cyan};
+        for(int i=0; i<5; i++){
+            RectangleBall aBall = new RectangleBall ((i*10)+10, (i*10)+15, i*5+10);
+            aBall.setColor (colors[i]);
+            aBall.setMotion (i+1, i+1);
+
+            balls.add(aBall);
+
+        }
+
 
         //Köşedeki çarpıya basılınca uygulamanın kapanması için
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -76,19 +85,15 @@ public class BallWorld extends JFrame {
         Timer timer = new Timer(10, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-
-                for (Ball aBall : balls) {
+                for (RectangleBall aBall: balls) {
                     //Topun konumu dx,dy kadar değiştirilir
                     aBall.move();
                     //Ekran dışına çıktıysa geri dönmesi sağlanır
-                    aBall.checkCollision(mainPanel.getWidth(), mainPanel.getHeight());
+                    aBall.checkCollision(mainPanel.getWidth(),mainPanel.getHeight());
                 }
                 //Ekrandaki değişikliklerin çizilmesi için repaint in çağrılması gerekir
                 mainPanel.repaint();
-
             }
-
         });
         timer.start();
     }

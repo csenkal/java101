@@ -19,12 +19,12 @@ public class Ball {
     protected double dy;
     protected Color color;
 
-    public Ball (int x, int y, int r, Color color1, double dx1, double dy1)
+    public Ball (int x, int y, int r)
     {
         location = new Rectangle(x-r, y-r, 2*r, 2*r);
-        this.dx = dx1;
-        this.dy = dy1;
-        this.color = color1;
+        dx = 0;
+        dy = 0;
+        color = Color.blue;
     }
 
     // functions that set attributes
@@ -75,3 +75,6 @@ public class Ball {
         g.fillOval (location.x, location.y, location.width, location.height);
     }
 }
+
+
+
