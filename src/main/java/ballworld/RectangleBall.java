@@ -50,9 +50,8 @@ public class RectangleBall extends Ball
     public void move ()
     {
         super.location.translate ((int) dx, (int) dy);
-
-
     }
+
     @Override
     public void checkCollision(int width, int height){
         if ((super.x() < 0) || (super.x() > width))
@@ -60,6 +59,7 @@ public class RectangleBall extends Ball
         if ((super.y() < 0) || (super.y() > height))
             super.setMotion (super.xMotion(), -super.yMotion());
     }
+
     @Override
     public void paint (Graphics g)
     {
