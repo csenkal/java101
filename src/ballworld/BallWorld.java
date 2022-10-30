@@ -29,10 +29,10 @@ public class BallWorld extends JFrame {
     private static final int FrameWidth = 600;
     private static final int FrameHeight = 400;
 
-    private LinkedList<Ball> balls;
+    public LinkedList<Ball> balls;
 
 
-    private JPanel mainPanel;
+    public JPanel mainPanel;
 
 
 
@@ -44,7 +44,7 @@ public class BallWorld extends JFrame {
 
         //Tüm çizimler mainPanel üzerinde yapılıyor
         mainPanel = new JPanel(){
-            @Override
+
             //repaint çağrıldığında swing bu metodu çağırır
             protected void paintComponent(Graphics g) {
                 //Şekillerin köşelerinin düzgün gözükmesini sağlar
@@ -59,6 +59,11 @@ public class BallWorld extends JFrame {
                 for (Ball aBall: balls) {
                     aBall.paint (g);
                 }
+                g.clearRect(0,0, mainPanel.getWidth(), mainPanel.getHeight());
+
+                for (Ball sBall: balls) {
+                    sBall.paint(g);
+                }
 
 
             }
@@ -68,12 +73,20 @@ public class BallWorld extends JFrame {
         this.pack();
         // initialize object data field
         Color[] colors = new Color[]{Color.red, Color.black, Color.blue, Color.pink, Color.cyan};
-        for(int i=0; i<5; i++){
+        for(int i=0; i<3; i++){
             Ball aBall = new Ball ((i*10)+10, (i*10)+15, i*5+10);
             aBall.setColor (colors[i]);
             aBall.setMotion (i+1, i+1);
 
             balls.add(aBall);
+
+        }
+        for(int i=3; i<5; i++){
+            SquareBall sBalls = new SquareBall (i+10, i+15, i*5+10);
+            sBalls.setColor (colors[i]);
+            sBalls.setMotion (i+1, i+1);
+
+            balls.add(sBalls);
 
         }
 
@@ -90,6 +103,10 @@ public class BallWorld extends JFrame {
                     aBall.move();
                     //Ekran dışına çıktıysa geri dönmesi sağlanır
                     aBall.checkCollision(mainPanel.getWidth(),mainPanel.getHeight());
+                }
+                for(Ball sBall: balls) {
+                    sBall.move();
+                    sBall.checkCollision(mainPanel.getWidth(), mainPanel.getHeight());
                 }
                 //Ekrandaki değişikliklerin çizilmesi için repaint in çağrılması gerekir
                 mainPanel.repaint();

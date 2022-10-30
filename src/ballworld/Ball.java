@@ -73,5 +73,7 @@ public class Ball {
     {
         g.setColor (color);
         g.fillOval (location.x, location.y, location.width, location.height);
+        g.fillRect(location.y, location.x, location.width, location.height);
     }
+
 }
