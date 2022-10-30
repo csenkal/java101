@@ -14,6 +14,11 @@ package ballworld;
 import java.awt.*;
 
 public class Ball {
+    public void paint (Graphics g)
+    {
+        g.setColor (color);
+        g.fillOval (location.x, location.y, location.width, location.height);
+    }
     protected Rectangle location;
     protected double dx;
     protected double dy;
@@ -25,6 +30,10 @@ public class Ball {
         dx = 0;
         dy = 0;
         color = Color.blue;
+    }
+
+    public Ball() {
+
     }
 
     // functions that set attributes
@@ -68,10 +77,5 @@ public class Ball {
             this.setMotion (-this.xMotion(), this.yMotion());
         if ((this.y() < 0) || (this.y() > height))
             this.setMotion (this.xMotion(), -this.yMotion());
-    }
-    public void paint (Graphics g)
-    {
-        g.setColor (color);
-        g.fillOval (location.x, location.y, location.width, location.height);
     }
 }

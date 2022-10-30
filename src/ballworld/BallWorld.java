@@ -39,7 +39,7 @@ public class BallWorld extends JFrame {
     private BallWorld (Color ballColor) {
         // constructor for new ball world
 
-        balls = new LinkedList<Ball>();
+        balls = new LinkedList<>();
         setTitle ("Ball World");
 
         //Tüm çizimler mainPanel üzerinde yapılıyor
@@ -58,7 +58,13 @@ public class BallWorld extends JFrame {
 
                 for (Ball aBall: balls) {
                     aBall.paint (g);
+
                 }
+
+
+
+
+
 
 
             }
@@ -69,12 +75,22 @@ public class BallWorld extends JFrame {
         // initialize object data field
         Color[] colors = new Color[]{Color.red, Color.black, Color.blue, Color.pink, Color.cyan};
         for(int i=0; i<5; i++){
-            Ball aBall = new Ball ((i*10)+10, (i*10)+15, i*5+10);
-            aBall.setColor (colors[i]);
-            aBall.setMotion (i+1, i+1);
+
+            if (i<=3);{
+                Ball aBall = new Ball ((i*10)+10, (i*10)+15, i*5+10);
+                aBall.setColor (colors[i]);
+                aBall.setMotion (i+1, i+1);
 
             balls.add(aBall);
+            }
 
+            if (i>3);
+            {
+                SquareBall aBall = new SquareBall((i * 10) + 20, (i * 10) + 25, i * 5 + 10);
+                aBall.setColor(colors[i]);
+                aBall.setMotion(i + 1, i + 1);
+                balls.add(aBall);
+            }
         }
 
 
