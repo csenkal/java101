@@ -74,16 +74,19 @@ public class BallWorld extends JFrame {
         this.add(mainPanel);
         this.pack();
         // initialize object data field
-        for (int i=0; i<2;i++) {
+
+        /*for (int i=0; i<2;i++) {
             Rectangel aRec= new Rectangel(10+40*i, 0, 20);
             aRec.setColor(new Color((int)(Math.random() * 0x1000000)));
             aRec.setMotion(5, 2.0+i);
             Ball_List.add(aRec);
         }
+        */
+
         for (int i=0; i<3;i++) {
             Ball aBall= new Ball(10, 15+25*i, 20);
             aBall.setColor(new Color((int)(Math.random() * 0x1000000)));
-            aBall.setMotion(0, 2.0+i);
+            aBall.setMotion(4, 3);
             Ball_List.add(aBall);
         }
 
@@ -97,9 +100,11 @@ public class BallWorld extends JFrame {
                 //Topun konumu dx,dy kadar değiştirilir
                 for (Ball aBall :Ball_List) {
                     aBall.move();
-
+                    System.out.println(Ball_List.get(1).x());
                     //Ekran dışına çıktıysa geri dönmesi sağlanır
                     aBall.checkCollision(mainPanel.getWidth(), mainPanel.getHeight());
+
+                    aBall.Collission2(Ball_List.get(1).x(),Ball_List.get(1).y());
                 }
                 //Ekrandaki değişikliklerin çizilmesi için repaint in çağrılması gerekir
                 mainPanel.repaint();

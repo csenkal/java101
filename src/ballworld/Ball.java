@@ -71,10 +71,18 @@ public class Ball {
             this.setMotion (-this.xMotion(), this.yMotion());
         if ((this.y() < 0) || (this.y() > height))
             this.setMotion (this.xMotion(), -this.yMotion());
+
     }
+
+    public void Collission2(int width2, int height2){
+        if (Math.abs(this.x()-width2)<radius())
+            this.setMotion(-this.xMotion(), this.yMotion());
+        if (Math.abs(this.y()-height2)<radius())
+            this.setMotion(this.xMotion(), -this.yMotion());
+    }
+
     public void paint (Graphics g)
     {
-
             g.setColor(color);
             g.fillOval(location.x, location.y, location.width, location.height);
 
