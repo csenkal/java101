@@ -88,7 +88,7 @@ public class BallWorld extends JFrame {
 
         }
         for(int i=3; i<5; i++){
-            SquareBall sBalls = new SquareBall (i+10, i+15, i*5+10);
+            SquareBall sBalls = new SquareBall (15*i+10, 15*i+15, i*5+10);
             sBalls.setColor (colors[i]);
             sBalls.setMotion (i+3, i+3);
 
