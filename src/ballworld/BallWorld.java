@@ -56,10 +56,11 @@ public class BallWorld extends JFrame {
                 //Önce tüm ekran temizlenir
                 g.clearRect(0,0, mainPanel.getWidth(), mainPanel.getHeight());
                 //Sonra top yeni yerinde çizilir
-    super.paintComponent(g);
+
 
 
                 g.clearRect(0,0, mainPanel.getWidth(), mainPanel.getHeight());
+    super.paintComponent(g);
 
 
                 for (Ball aBall: balls) {
