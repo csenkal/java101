@@ -84,7 +84,7 @@ public class BallWorld extends JFrame {
         */
 
         for (int i=0; i<3;i++) {
-            Ball aBall= new Ball(10, 15+25*i, 20);
+            Ball aBall= new Ball(i*100, i*50, 20);
             aBall.setColor(new Color((int)(Math.random() * 0x1000000)));
             aBall.setMotion(4, 3);
             Ball_List.add(aBall);
@@ -104,7 +104,13 @@ public class BallWorld extends JFrame {
                     //Ekran dışına çıktıysa geri dönmesi sağlanır
                     aBall.checkCollision(mainPanel.getWidth(), mainPanel.getHeight());
 
-                    aBall.Collission2(Ball_List.get(1).x(),Ball_List.get(1).y());
+                    for (Ball bBall: Ball_List) {
+                        //Kendi kendi ile carpisma kontrolu yapmasin diye
+                        if(bBall!=aBall){
+                            aBall.Collission2(bBall.x(), bBall.y());
+                        }
+                    }
+
                 }
                 //Ekrandaki değişikliklerin çizilmesi için repaint in çağrılması gerekir
                 mainPanel.repaint();
