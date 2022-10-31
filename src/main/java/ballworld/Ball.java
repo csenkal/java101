@@ -21,7 +21,7 @@ public class Ball {
 
     public Ball (int x, int y, int r)
     {
-        location = new Rectangle(x-r, y-r, 2*r, 2*r);
+        location = new Rectangle(x-r+154, y-r+147, 2*r, 2*r);
         dx = 0;
         dy = 0;
         color = Color.blue;
