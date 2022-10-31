@@ -57,10 +57,10 @@ public class EngineRequestHTTPServer {
                 URI requestURI = exchange.getRequestURI();
 
                 //Pass request path and query to handleRequest Method
-                handleRequest(requestURI.getPath(),requestURI.getQuery());
+                String r = handleRequest(requestURI.getPath(),requestURI.getQuery());
 
                 //Create a default response message OK
-                String response = "<html><link rel=\"icon\" href=\"data:,\">" + res + "</html>";
+                String response = "<html><link rel=\"icon\" href=\"data:,\">" + r + "</html>";
                 //Set 200 as request response CODE
                 exchange.sendResponseHeaders(200, response.getBytes().length);//response code and length
                 //Write OK to the response OutputStream

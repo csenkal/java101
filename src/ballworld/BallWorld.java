@@ -58,15 +58,18 @@ public class BallWorld extends JFrame {
                 //Sonra top yeni yerinde çizilir
     super.paintComponent(g);
 
+
+                g.clearRect(0,0, mainPanel.getWidth(), mainPanel.getHeight());
+
+
                 for (Ball aBall: balls) {
                     aBall.paint (g);
                 }
-                g.clearRect(0,0, mainPanel.getWidth(), mainPanel.getHeight());
-
+                /*
                 for (Ball sBall: balls) {
                     sBall.paint(g);
                 }
-
+*/
 
             }
         };
