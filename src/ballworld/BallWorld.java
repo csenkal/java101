@@ -59,18 +59,14 @@ public class BallWorld extends JFrame {
 
 
 
-                g.clearRect(0,0, mainPanel.getWidth(), mainPanel.getHeight());
-    super.paintComponent(g);
+
+
 
 
                 for (Ball aBall: balls) {
                     aBall.paint (g);
                 }
-                /*
-                for (Ball sBall: balls) {
-                    sBall.paint(g);
-                }
-*/
+
 
             }
         };
@@ -88,9 +84,9 @@ public class BallWorld extends JFrame {
 
         }
         for(int i=3; i<5; i++){
-            SquareBall sBalls = new SquareBall (15*i+10, 15*i+15, i*5+10);
+            SquareBall sBalls = new SquareBall ((i*10)+10, (i*10)+15, i*5+10);
             sBalls.setColor (colors[i]);
-            sBalls.setMotion (i+3, i+3);
+            sBalls.setMotion (i+1, i+1);
 
             balls.add(sBalls);
 
@@ -110,10 +106,13 @@ public class BallWorld extends JFrame {
                     //Ekran dışına çıktıysa geri dönmesi sağlanır
                     aBall.checkCollision(mainPanel.getWidth(),mainPanel.getHeight());
                 }
+                /*
                 for(Ball sBall: balls) {
                     sBall.move();
                     sBall.checkCollision(mainPanel.getWidth(), mainPanel.getHeight());
                 }
+                */
+
                 //Ekrandaki değişikliklerin çizilmesi için repaint in çağrılması gerekir
                 mainPanel.repaint();
             }

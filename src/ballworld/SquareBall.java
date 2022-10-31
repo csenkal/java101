@@ -15,7 +15,8 @@ public class SquareBall extends Ball{
     }
     public void paint (Graphics g)
     {
-        g.fillRect(location.y, location.x, location.width, location.height);
+        g.setColor (color);
+        g.fillRect(location.x, location.y, location.width, location.height);
     }
 
 }

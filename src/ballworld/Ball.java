@@ -21,7 +21,7 @@ public class Ball {
 
     public Ball (int x, int y, int r)
     {
-        location = new Rectangle(x-r, y-r, 2*r, 2*r);
+        location = new Rectangle(x, y, 2*r, 2*r);
         dx = 0;
         dy = 0;
         color = Color.blue;
@@ -39,10 +39,10 @@ public class Ball {
     { return location.width / 2; }
 
     public int x ()
-    { return location.x + radius(); }
+    { return location.x;}
 
     public int y ()
-    { return location.y + radius(); }
+    { return location.y;}
 
     public double xMotion ()
     { return dx; }
@@ -74,7 +74,7 @@ public class Ball {
 
         g.setColor (color);
         g.fillOval (location.x, location.y, location.width, location.height);
-        g.fillRect(location.y, location.x, location.height, location.width);
+        //g.fillRect(location.y, location.x, location.height, location.width);
     }
 
 }
