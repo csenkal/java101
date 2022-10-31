@@ -32,6 +32,7 @@ public class BallWorld extends JFrame {
     public LinkedList<Ball> balls;
 
 
+
     public JPanel mainPanel;
 
 
@@ -44,7 +45,7 @@ public class BallWorld extends JFrame {
 
         //Tüm çizimler mainPanel üzerinde yapılıyor
         mainPanel = new JPanel(){
-
+@Override
             //repaint çağrıldığında swing bu metodu çağırır
             protected void paintComponent(Graphics g) {
                 //Şekillerin köşelerinin düzgün gözükmesini sağlar
@@ -55,6 +56,7 @@ public class BallWorld extends JFrame {
                 //Önce tüm ekran temizlenir
                 g.clearRect(0,0, mainPanel.getWidth(), mainPanel.getHeight());
                 //Sonra top yeni yerinde çizilir
+    super.paintComponent(g);
 
                 for (Ball aBall: balls) {
                     aBall.paint (g);
@@ -84,7 +86,7 @@ public class BallWorld extends JFrame {
         for(int i=3; i<5; i++){
             SquareBall sBalls = new SquareBall (i+10, i+15, i*5+10);
             sBalls.setColor (colors[i]);
-            sBalls.setMotion (i+1, i+1);
+            sBalls.setMotion (i+3, i+3);
 
             balls.add(sBalls);
 

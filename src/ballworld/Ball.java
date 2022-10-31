@@ -71,9 +71,10 @@ public class Ball {
     }
     public void paint (Graphics g)
     {
+
         g.setColor (color);
         g.fillOval (location.x, location.y, location.width, location.height);
-        g.fillRect(location.y, location.x, location.width, location.height);
+        g.fillRect(location.y, location.x, location.height, location.width);
     }
 
 }
