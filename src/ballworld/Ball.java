@@ -11,7 +11,10 @@ package ballworld;
 //	for further information
 //
 
+import carworld.*;
+
 import java.awt.*;
+import java.util.LinkedList;
 
 public class Ball {
     protected Rectangle location;
@@ -26,6 +29,8 @@ public class Ball {
         dy = 0;
         color = Color.blue;
     }
+
+
 
     // functions that set attributes
     public void setColor (Color newColor)
@@ -72,6 +77,9 @@ public class Ball {
     public void paint (Graphics g)
     {
         g.setColor (color);
+
         g.fillOval (location.x, location.y, location.width, location.height);
+       // g.fillRect(location.x, location.y, location.width, location.height);
+       // LinkedList.add(RectBall,OvalBall);
     }
 }

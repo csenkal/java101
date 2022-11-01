@@ -1,16 +1,14 @@
 package ballworld;
 
-//
-//	the Ball World game
+	//the Ball World game
 //	Described in Chapter 5 of
-//	Understanding Object-Oriented Programming with Java
+//Understanding Object-Oriented Programming with Java
 //	by Timothy A Budd
 //	Published by Addison-Wesley
-//
+
 //	see ftp://ftp.cs.orst.edu/pub/budd/java/ReadMe.html
 //	for further information
 //
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -69,7 +67,11 @@ public class BallWorld extends JFrame {
         // initialize object data field
         Color[] colors = new Color[]{Color.red, Color.black, Color.blue, Color.pink, Color.cyan};
         for(int i=0; i<5; i++){
-            Ball aBall = new Ball ((i*10)+10, (i*10)+15, i*5+10);
+            Ball aBall;
+            if(i%2==0)
+                aBall = new RectBall ((i*10)+10, (i*10)+15, i*5+10);
+            else
+                aBall = new Ball ((i*10)+10, (i*10)+15, i*5+10);
             aBall.setColor (colors[i]);
             aBall.setMotion (i+1, i+1);
 
@@ -82,8 +84,9 @@ public class BallWorld extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Timer start çağrıldığında, her on milisaniyede bir actionPerformed metodu çağrılır
-        Timer timer = new Timer(10, new ActionListener() {
+        Timer timer = new Timer(20, new ActionListener() {
             @Override
+
             public void actionPerformed(ActionEvent e) {
                 for (Ball aBall: balls) {
                     //Topun konumu dx,dy kadar değiştirilir
