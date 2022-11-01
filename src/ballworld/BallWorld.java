@@ -16,6 +16,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
+import java.util.Scanner;
 
 
 public class BallWorld extends JFrame {
@@ -42,7 +43,12 @@ public class BallWorld extends JFrame {
 
         // constructor for new ball world
 
+        Scanner sc= new Scanner(System.in);
+        System.out.print("Daire sayısı - ");
+        int Dsayı= sc.nextInt();
 
+        System.out.print("Dikdörtgen sayısı - ");
+        int İsayı= sc.nextInt();
 
 
 
@@ -74,19 +80,16 @@ public class BallWorld extends JFrame {
         this.add(mainPanel);
         this.pack();
         // initialize object data field
-
-        /*for (int i=0; i<2;i++) {
-            Rectangel aRec= new Rectangel(10+40*i, 0, 20);
+        for (int i=0; i<İsayı;i++) {
+            Rectangel aRec= new Rectangel(10-6*i, 10*i, 20);
             aRec.setColor(new Color((int)(Math.random() * 0x1000000)));
             aRec.setMotion(5, 2.0+i);
             Ball_List.add(aRec);
         }
-        */
-
-        for (int i=0; i<3;i++) {
-            Ball aBall= new Ball(i*100, i*50, 20);
+        for (int i=0; i<Dsayı;i++) {
+            Ball aBall= new Ball(50+90*i, 15+90*i, 20);
             aBall.setColor(new Color((int)(Math.random() * 0x1000000)));
-            aBall.setMotion(4, 3);
+            aBall.setMotion(1+1*i, 2+2*i);
             Ball_List.add(aBall);
         }
 
@@ -94,23 +97,16 @@ public class BallWorld extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Timer start çağrıldığında, her on milisaniyede bir actionPerformed metodu çağrılır
-        Timer timer = new Timer(10, new ActionListener() {
+        Timer timer = new Timer(1, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Topun konumu dx,dy kadar değiştirilir
-                for (Ball aBall :Ball_List) {
-                    aBall.move();
-                    System.out.println(Ball_List.get(1).x());
+                for (int i =0;i<Ball_List.size();i++) {
+                    Ball_List.get(i).move();
+
                     //Ekran dışına çıktıysa geri dönmesi sağlanır
-                    aBall.checkCollision(mainPanel.getWidth(), mainPanel.getHeight());
-
-                    for (Ball bBall: Ball_List) {
-                        //Kendi kendi ile carpisma kontrolu yapmasin diye
-                        if(bBall!=aBall){
-                            aBall.Collission2(bBall.x(), bBall.y());
-                        }
-                    }
-
+                    Ball_List.get(i).checkCollision(mainPanel.getWidth(), mainPanel.getHeight());
+                    Ball_List.get(i).Collission2(Ball_List.get(1).x(),Ball_List.get(1).y(), Ball_List.get(0).x(),Ball_List.get(0).y(),Ball_List.get(0));
                 }
                 //Ekrandaki değişikliklerin çizilmesi için repaint in çağrılması gerekir
                 mainPanel.repaint();

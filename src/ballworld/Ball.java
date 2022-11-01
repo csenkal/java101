@@ -16,7 +16,6 @@ import java.awt.*;
 public class Ball {
     protected Rectangle location;
 
-
     protected double dx;
     protected double dy;
     protected Color color;
@@ -59,6 +58,9 @@ public class Ball {
     public void moveTo (int x, int y)
     { location.setLocation(x, y); }
 
+
+
+
     public void move ()
     {
         location.translate ((int) dx, (int) dy);
@@ -74,11 +76,17 @@ public class Ball {
 
     }
 
-    public void Collission2(int width2, int height2){
-        if (Math.abs(this.x()-width2)<radius())
-            this.setMotion(-this.xMotion(), this.yMotion());
-        if (Math.abs(this.y()-height2)<radius())
-            this.setMotion(this.xMotion(), -this.yMotion());
+    public void Collission2(int X_Second, int Y_Second, int X_First, int Y_First, Ball b1 ){   // Top Obyesini yollarak Ball da kullan yada yeni sınıf aç 
+
+            //this.setMotion(-this.xMotion(), this.yMotion());
+
+        if ((Math.abs(Y_First-Y_Second)<=2*radius()) && (Math.abs(X_First-X_Second)<=2*radius()))
+           // this.setMotion(this.xMotion(), -this.yMotion());
+            if ((Y_First-Y_Second)>0)
+                this.setMotion(this.xMotion(), b1.yMotion());                 //Diğer topların motion ı verebilirim
+        if ((Y_First-Y_Second)<0)
+                this.setMotion(b1.xMotion(), this.yMotion());
+
     }
 
     public void paint (Graphics g)
