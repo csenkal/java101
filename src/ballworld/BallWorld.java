@@ -17,7 +17,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
-
+ //deneme
 public class BallWorld extends JFrame {
 
     public static void main (String [ ] args)
