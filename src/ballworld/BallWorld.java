@@ -15,7 +15,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 
 public class BallWorld extends JFrame {
@@ -29,7 +31,7 @@ public class BallWorld extends JFrame {
     private static final int FrameWidth = 600;
     private static final int FrameHeight = 400;
 
-    private LinkedList<Ball> balls;
+    private List<Ball> balls;
 
 
     private JPanel mainPanel;
@@ -39,7 +41,7 @@ public class BallWorld extends JFrame {
     private BallWorld (Color ballColor) {
         // constructor for new ball world
 
-        balls = new LinkedList<Ball>();
+        balls = new ArrayList<Ball>();
         setTitle ("Ball World");
 
         //Tüm çizimler mainPanel üzerinde yapılıyor
@@ -68,8 +70,12 @@ public class BallWorld extends JFrame {
         this.pack();
         // initialize object data field
         Color[] colors = new Color[]{Color.red, Color.black, Color.blue, Color.pink, Color.cyan};
+        Ball aBall;
         for(int i=0; i<5; i++){
-            Ball aBall = new Ball ((i*10)+10, (i*10)+15, i*5+10);
+            if(i%2==0)
+                aBall = new SquareBall ((i*10)+10, (i*10)+15, i*5+10);
+            else
+                aBall = new Ball ((i*10)+10, (i*10)+15, i*5+10);
             aBall.setColor (colors[i]);
             aBall.setMotion (i+1, i+1);
 
