@@ -15,6 +15,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
 
@@ -32,6 +33,8 @@ public class BallWorld extends JFrame {
 
 
     LinkedList<Ball> Ball_List = new LinkedList<>();
+
+    ArrayList<Brick> Brick_List = new ArrayList<>();
 
 
     private JPanel mainPanel;
@@ -70,9 +73,11 @@ public class BallWorld extends JFrame {
                 //Sonra top yeni yerinde çizilir
                 for (Ball aBall :Ball_List) {
                     aBall.paint(g);
+
                 }
-
-
+                for (Brick dbrick :Brick_List) {
+                    dbrick.paint(g);
+                }
             }
         };
 
@@ -81,23 +86,28 @@ public class BallWorld extends JFrame {
         this.pack();
         // initialize object data field
         for (int i=0; i<İsayı;i++) {
-            Rectangel aRec= new Rectangel(10-6*i, 10*i, 20);
+            Rectangel aRec= new Rectangel(60, 200, 20);
             aRec.setColor(new Color((int)(Math.random() * 0x1000000)));
             aRec.setMotion(5, 2.0+i);
             Ball_List.add(aRec);
         }
         for (int i=0; i<Dsayı;i++) {
-            Ball aBall= new Ball(50+90*i, 15+90*i, 20);
+            Ball aBall= new Ball(600, 300, 20);
             aBall.setColor(new Color((int)(Math.random() * 0x1000000)));
-            aBall.setMotion(1+1*i, 2+2*i);
+            aBall.setMotion(1+i, 2+2*i);
             Ball_List.add(aBall);
         }
 
+        for (int i=0; i<20;i++) {
+            Brick brick = new Brick(50+90*i, 100, 30);
+            Brick_List.add(brick);
+
+        }
         //Köşedeki çarpıya basılınca uygulamanın kapanması için
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Timer start çağrıldığında, her on milisaniyede bir actionPerformed metodu çağrılır
-        Timer timer = new Timer(1, new ActionListener() {
+        Timer timer = new Timer(10, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Topun konumu dx,dy kadar değiştirilir
@@ -106,7 +116,9 @@ public class BallWorld extends JFrame {
 
                     //Ekran dışına çıktıysa geri dönmesi sağlanır
                     Ball_List.get(i).checkCollision(mainPanel.getWidth(), mainPanel.getHeight());
-                    Ball_List.get(i).Collission2(Ball_List.get(1).x(),Ball_List.get(1).y(), Ball_List.get(0).x(),Ball_List.get(0).y(),Ball_List.get(0));
+                    for (int j =0;j<Ball_List.size();j++) {
+                        Brick_List.get(i).Collission2(Ball_List.get(i),Brick_List.get(j));
+                    }
                 }
                 //Ekrandaki değişikliklerin çizilmesi için repaint in çağrılması gerekir
                 mainPanel.repaint();

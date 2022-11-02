@@ -76,18 +76,15 @@ public class Ball {
 
     }
 
-    public void Collission2(int X_Second, int Y_Second, int X_First, int Y_First, Ball b1 ){   // Top Obyesini yollarak Ball da kullan yada yeni sınıf aç 
+    public void Collission2( Ball b1 ,Ball b0){   // Top Obyesini yollarak Ball da kullan yada yeni sınıf aç
 
             //this.setMotion(-this.xMotion(), this.yMotion());
 
-        if ((Math.abs(Y_First-Y_Second)<=2*radius()) && (Math.abs(X_First-X_Second)<=2*radius()))
-           // this.setMotion(this.xMotion(), -this.yMotion());
-            if ((Y_First-Y_Second)>0)
-                this.setMotion(this.xMotion(), b1.yMotion());                 //Diğer topların motion ı verebilirim
-        if ((Y_First-Y_Second)<0)
-                this.setMotion(b1.xMotion(), this.yMotion());
+        if ((Math.abs(b0.x()- b1.x())<=2*radius()) && (Math.abs(b1.y()-b0.y())<=2*radius()))
+            b1.setMotion(-b1.xMotion(), -b1.yMotion());
 
     }
+
 
     public void paint (Graphics g)
     {
