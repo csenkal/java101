@@ -36,7 +36,7 @@ public class BallWorld extends JFrame {
 
     ArrayList<Brick> Brick_List = new ArrayList<>();
 
-
+    TAB newT = new TAB(300, 400,60);         // Ekran yüzdesine göre bir değer ekelencek  Curser konumuna göre değişim eklenecek
     private JPanel mainPanel;
 
 
@@ -78,6 +78,8 @@ public class BallWorld extends JFrame {
                 for (Brick dbrick :Brick_List) {
                     dbrick.paint(g);
                 }
+                newT.paint(g);
+
             }
         };
 
@@ -99,10 +101,12 @@ public class BallWorld extends JFrame {
         }
 
         for (int i=0; i<20;i++) {
-            Brick brick = new Brick(50+90*i, 100, 30);
+            Brick brick = new Brick(50+50*i, 50, 30);
             Brick_List.add(brick);
 
         }
+
+
         //Köşedeki çarpıya basılınca uygulamanın kapanması için
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -116,8 +120,10 @@ public class BallWorld extends JFrame {
 
                     //Ekran dışına çıktıysa geri dönmesi sağlanır
                     Ball_List.get(i).checkCollision(mainPanel.getWidth(), mainPanel.getHeight());
-                    for (int j =0;j<Ball_List.size();j++) {
-                        Brick_List.get(i).Collission2(Ball_List.get(i),Brick_List.get(j));
+                    for (int j =0;j<Brick_List.size();j++) {
+                        //Brick_List.get(i).Collission2(Ball_List.get(i),Brick_List.get(j));
+                        if (Brick_List.get(i).Collission2(Ball_List.get(i),Brick_List.get(j)) == 1)          // TAB collision ı eklenecek
+                            Brick_List.remove(j);
                     }
                 }
                 //Ekrandaki değişikliklerin çizilmesi için repaint in çağrılması gerekir

@@ -76,13 +76,14 @@ public class Ball {
 
     }
 
-    public void Collission2( Ball b1 ,Ball b0){   // Top Obyesini yollarak Ball da kullan yada yeni sınıf aç
+    public int Collission2( Ball b1 ,Ball b0){   // b1 = toplar b0= brickler
+        //this.setMotion(-this.xMotion(), this.yMotion());
 
-            //this.setMotion(-this.xMotion(), this.yMotion());
-
-        if ((Math.abs(b0.x()- b1.x())<=2*radius()) && (Math.abs(b1.y()-b0.y())<=2*radius()))
-            b1.setMotion(-b1.xMotion(), -b1.yMotion());
-
+        if ((Math.abs(b0.x()- b1.x())<=2*radius()) && (Math.abs(b1.y()-b0.y())<=2*radius())) {
+            b1.setMotion(-b1.xMotion(), -b1.yMotion());    // bazı çarpışmalar fizik dışı
+            return 1;
+        }
+        return 0;
     }
 
 
