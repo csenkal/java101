@@ -36,7 +36,7 @@ public class BallWorld extends JFrame {
 
     ArrayList<Brick> Brick_List = new ArrayList<>();
 
-    TAB newT = new TAB(300, 400,60);         // Ekran yüzdesine göre bir değer ekelencek  Curser konumuna göre değişim eklenecek
+    TAB newT = new TAB(300, 430,60);         // Ekran yüzdesine göre bir değer ekelencek  Curser konumuna göre değişim eklenecek
     private JPanel mainPanel;
 
 
@@ -90,18 +90,18 @@ public class BallWorld extends JFrame {
         for (int i=0; i<İsayı;i++) {
             Rectangel aRec= new Rectangel(60, 200, 20);
             aRec.setColor(new Color((int)(Math.random() * 0x1000000)));
-            aRec.setMotion(5, 2.0+i);
+            aRec.setMotion(3, 2.0+i);
             Ball_List.add(aRec);
         }
         for (int i=0; i<Dsayı;i++) {
-            Ball aBall= new Ball(600, 300, 20);
+            Ball aBall= new Ball(100, 200, 20);
             aBall.setColor(new Color((int)(Math.random() * 0x1000000)));
-            aBall.setMotion(1+i, 2+2*i);
+            aBall.setMotion(-1+i, 2+2*i);
             Ball_List.add(aBall);
         }
 
         for (int i=0; i<20;i++) {
-            Brick brick = new Brick(50+50*i, 50, 30);
+            Brick brick = new Brick(50+50*i, 50, 10);
             Brick_List.add(brick);
 
         }
@@ -119,12 +119,14 @@ public class BallWorld extends JFrame {
                     Ball_List.get(i).move();
 
                     //Ekran dışına çıktıysa geri dönmesi sağlanır
+                    Ball_List.get(i).tabCollision(newT,Ball_List.get(i));
                     Ball_List.get(i).checkCollision(mainPanel.getWidth(), mainPanel.getHeight());
                     for (int j =0;j<Brick_List.size();j++) {
                         //Brick_List.get(i).Collission2(Ball_List.get(i),Brick_List.get(j));
                         if (Brick_List.get(i).Collission2(Ball_List.get(i),Brick_List.get(j)) == 1)          // TAB collision ı eklenecek
                             Brick_List.remove(j);
                     }
+
                 }
                 //Ekrandaki değişikliklerin çizilmesi için repaint in çağrılması gerekir
                 mainPanel.repaint();

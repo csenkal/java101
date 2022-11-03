@@ -10,7 +10,7 @@ public class TAB extends Ball{
     public void paint (Graphics g)
     {
         g.setColor(Color.BLACK);
-        g.fillRect(location.x, location.y, location.width*2, location.height/2);
+        g.fillRect(location.x, location.y, 140, 30);
 
     }
 }

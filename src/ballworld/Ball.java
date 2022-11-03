@@ -71,9 +71,16 @@ public class Ball {
     public void checkCollision(int width, int height){
         if ((this.x() < 0) || (this.x() > width))
             this.setMotion (-this.xMotion(), this.yMotion());
-        if ((this.y() < 0) || (this.y() > height))
+        if ((this.y() < 0)  )
             this.setMotion (this.xMotion(), -this.yMotion());
 
+    }
+
+    public void tabCollision(Ball tab,Ball ball){
+        if ((ball.y() > (tab.y())-30)){
+            if ((ball.x()>(-70+tab.x()) && (ball.x()<(+70+tab.x()))))
+            ball.setMotion (ball.xMotion(), -ball.yMotion());
+    }
     }
 
     public int Collission2( Ball b1 ,Ball b0){   // b1 = toplar b0= brickler

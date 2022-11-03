@@ -12,7 +12,7 @@ public class Brick extends Ball{
     public void paint (Graphics g)
     {
         g.setColor(Color.BLACK);
-        g.fillRect(location.x, location.y, location.width/2, location.height);
+        g.fillRect(location.x, location.y, location.width, location.height);
 
     }
 }
