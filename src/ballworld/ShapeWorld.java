@@ -13,21 +13,28 @@ package ballworld;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.util.Formatter;
 import java.util.LinkedList;
 import java.util.Random;
+import java.awt.MouseInfo;
 
 
-public class ShapeWorld extends JFrame {
+
+public class ShapeWorld extends JFrame implements MouseMotionListener {
 
     private static final int FrameWidth = 600;
     private static final int FrameHeight = 400;
     //private Ball aBall;
     LinkedList<Ball> Balls = new LinkedList<>();
-    LinkedList<Square> Squares = new LinkedList<>();
+    LinkedList<Brick> Bricks = new LinkedList<>();
+    //LinkedList<Square> Squares = new LinkedList<>();
     //ArrayList LinkedList olarak değiştirildi
     private JPanel mainPanel;
+
+    double xcoordinateMouse;
+    double ycoordinateMouse;
+
 
     Ball collisionchecker;
 
@@ -35,6 +42,9 @@ public class ShapeWorld extends JFrame {
 
     public ShapeWorld(Color ballColor) {
         // constructor for new ball world
+        // addMouseListener(new MouseListen());
+        super();
+        addMouseMotionListener(this);
 
         setTitle ("Ball World");
 
@@ -52,17 +62,27 @@ public class ShapeWorld extends JFrame {
                 g.clearRect(0,0, mainPanel.getWidth(), mainPanel.getHeight());
                 //Sonra top yeni yerinde çizilir
 
-
                 for(Ball ball :Balls)
                 {
                     ball.paint(g);
                 }
 
-                for(Square squares :Squares)
+                for(Brick brick :Bricks)
                 {
-                    squares.paint(g);
+                    brick.paint(g);
+
                 }
 
+
+
+                g.setColor(Color.BLACK);
+                g.setFont(new Font("Courier New", Font.PLAIN, 12));
+                StringBuilder sb = new StringBuilder();
+                Formatter formatter = new Formatter(sb);
+                formatter.format("Mouse X "+ xcoordinateMouse);
+                formatter.format("  Mouse Y "+ ycoordinateMouse);
+
+                g.drawString(sb.toString(), 5, 20);
 
 
                 //aBall.paint (g);
@@ -71,6 +91,9 @@ public class ShapeWorld extends JFrame {
         mainPanel.setPreferredSize(new Dimension(FrameWidth,FrameHeight));
         this.add(mainPanel);
         this.pack();
+
+
+
         // initialize object data field
 
         for(int x=0;x<3;x++)
@@ -78,7 +101,7 @@ public class ShapeWorld extends JFrame {
             Random rand = new Random();
             Color color = new Color(rand.nextInt(0xFFFFFF));
             //her top için ayrı bir random renk üretiliyor
-            Balls.add(new Ball(100,150,20));
+            Balls.add(new Ball((x+1)*100,(x+1)*50,20));
             Balls.get(x).setColor(color);
             Balls.get(x).setMotion((x+1)*3,(x+1)*3);
 
@@ -86,20 +109,30 @@ public class ShapeWorld extends JFrame {
 
 
 
+        for(int x=0;x<8;x++)
+        {
+
+            Bricks.add((new Brick((x+1)*60,75,15)));
+            Bricks.get(x).setColor(Color.BLUE);
+
+        }
+
+
+/*
 
         for(int x=0;x<2;x++)
         {
             Random rand = new Random();
             Color color = new Color(rand.nextInt(0xFFFFFF));
             //her top için ayrı bir random renk üretiliyor
-            Squares.add(new Square(400,100,15));
-            Squares.get(x).setColor(color);
-            Squares.get(x).setMotion((x+0.5)*5,(x+0.5)*2);
+            Balls.add(new Square((x+3)*100,(x+3)*50,20));
+            Balls.get(x).setColor(color);
+            Balls.get(x).setMotion((x+3)*3,(x+3)*3);
 
 
         }
 
-
+*/
 
 
 
@@ -113,7 +146,7 @@ public class ShapeWorld extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Timer start çağrıldığında, her on milisaniyede bir actionPerformed metodu çağrılır
-        Timer timer = new Timer(10, new ActionListener() {
+        Timer timer = new Timer(40, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 //Topun konumu dx,dy kadar değiştirilir
@@ -125,21 +158,45 @@ public class ShapeWorld extends JFrame {
                 }
 
 
-                for(Square squares :Squares)
-                {
-                    squares.move();
-                    squares.checkCollision(mainPanel.getWidth(),mainPanel.getHeight());
-                }
+
 
 
                 for (int i = 0; i < Balls.size(); i++) {
                     for (int j = 0; j < Balls.size(); j++) {
                         if (i < j) {
 
-                            collisionchecker.intersect(Balls.get(i), Balls.get(j));
+                            if(collisionchecker.intersect(Balls.get(i), Balls.get(j)) == "true")
+                            {
+                                Balls.remove(i);
+
+                            }
+
+
                         }
                     }
                 }
+
+
+                for (int i = 0; i < Balls.size(); i++) {
+                    for (int j = 0; j < Bricks.size(); j++) {
+                         {
+
+                            if(collisionchecker.intersect(Balls.get(i), Bricks.get(j)) == "true")
+                            {
+                                Bricks.remove(j);
+
+                            }
+
+
+                        }
+                    }
+                }
+
+
+
+
+
+
 
 
 
@@ -161,4 +218,31 @@ public class ShapeWorld extends JFrame {
         timer.start();
     }
 
+
+
+
+
+
+
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+
+
+
+
+
+        xcoordinateMouse = e.getX();
+        ycoordinateMouse = e.getY();
+        System.out.println(e.getX()+"X"+ e.getY()+ "Y");
+        setTitle ("Ball Click World");
+
+
+
+    }
 }

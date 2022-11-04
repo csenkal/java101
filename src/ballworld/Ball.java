@@ -72,53 +72,55 @@ public class Ball {
 
 
     public void checkCollision(int width, int height){
-        if ((this.x()-radius() < 0) || (this.x()+radius() > width))
+        if ((this.x() < 0) || (this.x() > width))
             this.setMotion (-this.xMotion(), this.yMotion());
-        if ((this.y()-radius() < 0) || (this.y()+radius() > height))
+        if ((this.y() < 0) || (this.y() > height))
             this.setMotion (this.xMotion(), -this.yMotion());
     }
 
 
-    public static void intersect(Ball a, Ball b) {
+    public static String intersect(Ball a, Ball b) {
         //ref http://gamedev.stackexchange.com/questions/20516/ball-collisions-sticking-together
         double xDist, yDist;
         xDist = a.x() - b.x();
         yDist = a.y() - b.y();
         double distSquared = xDist * xDist + yDist * yDist;
+
+        String collision = "false" ;
         // Check the squared distances instead of the the distances, same
         // result, but avoids a square root.
         if (distSquared <= (a.radius() + b.radius()) * (a.radius() + b.radius())) {
 
-            System.out.println("!!! COLLISION !!!!");
+            if(a.dx != 0 && b.dy!=0) {
+                System.out.println("!!! COLLISION !!!!");
 
-            double speedXocity = b.xMotion() - a.yMotion();
-            double speedYocity = b.xMotion() - a.yMotion();
-            double dotProduct = xDist * speedXocity + yDist * speedYocity;
-            // Neat vector maths, used for checking if the objects moves towards
-            // one another.
-            if (dotProduct > 0) {
+                a.setMotion(b.xMotion(), b.yMotion());
+                b.setMotion(-a.xMotion(), -a.yMotion());
+                  }
 
-                double collisionScale = dotProduct / distSquared;
-                double xCollision = xDist * collisionScale;
-                double yCollision = yDist * collisionScale;
-                // The Collision vector is the speed difference projected on the
-                // Dist vector,
-                // thus it is the component of the speed difference needed for
-                // the collision.
-                double combinedMass = a.getMass() + b.getMass();
-                double collisionWeightA = 2 * b.getMass() / combinedMass;
-                double collisionWeightB = 2 * a.getMass() / combinedMass;
-                a.dx += (collisionWeightA * xCollision);
-                a.dy += (collisionWeightA * yCollision);
-
-                b.dx -= (collisionWeightB * xCollision);
-                b.dy -= (collisionWeightB * yCollision);
+            else if(a.dx != 0 || b.dy!=0) {
+                System.out.println("!!! COLLISION !!!!");
 
 
             }
 
 
-        }}
+
+
+                collision = "true";
+
+            /*
+                a.dx += (collisionWeightA * xCollision);
+                a.dy += (collisionWeightA * yCollision);
+
+                b.dx -= (collisionWeightB * xCollision);
+                b.dy -= (collisionWeightB * yCollision);
+                */
+
+
+        }
+    return collision;
+    }
 
 
 
