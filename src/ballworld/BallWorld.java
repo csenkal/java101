@@ -35,8 +35,21 @@ public class BallWorld extends JFrame {
 
         @Override
         public void mouseMoved(MouseEvent e) {
+
             System.out.println(e.getX() +","+e.getY());
         }
+    }
+    static class PaddSquare implements SquarePad{
+
+
+
+        @Override
+        public void pad() {
+
+        }
+
+
+
     }
 
     public static void main (String [ ] args)
@@ -85,6 +98,16 @@ public class BallWorld extends JFrame {
 
         MyMouseListener mml = new MyMouseListener();
         mainPanel.addMouseMotionListener(mml);
+        PaddSquare pd = new PaddSquare();
+        if(pd instanceof PaddSquare){
+        mainPanel.addMouseMotionListener((MouseMotionListener) pd);
+        }
+       /*  MyMouseListener squarePad = new MyMouseListener(); {
+
+
+            }
+        }; */
+
 
         mainPanel.setPreferredSize(new Dimension(FrameWidth,FrameHeight));
         this.add(mainPanel);
