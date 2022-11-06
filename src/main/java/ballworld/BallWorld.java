@@ -18,26 +18,13 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
 
 
 public class BallWorld extends JFrame {
 
-
-
-    class MyMouseListener implements MouseMotionListener{
-
-        @Override
-        public void mouseDragged(MouseEvent e) {
-
-        }
-
-        @Override
-        public void mouseMoved(MouseEvent e) {
-            System.out.println(e.getX() +","+e.getY());
-        }
-    }
+public int brickX;
+public int brickY;
 
     public static void main (String [ ] args)
     {
@@ -59,6 +46,9 @@ public class BallWorld extends JFrame {
         // constructor for new ball world
 
         balls = new ArrayList<Ball>();
+        Ball aBrick = new SquareBall(250,100,80);
+        aBrick.setColor (Color.BLACK);
+        aBrick.setMotion (0, 0);
         setTitle ("Ball World");
 
         //Tüm çizimler mainPanel üzerinde yapılıyor
@@ -75,6 +65,9 @@ public class BallWorld extends JFrame {
                 g.clearRect(0,0, mainPanel.getWidth(), mainPanel.getHeight());
                 //Sonra top yeni yerinde çizilir
 
+                aBrick.moveTo(brickX,brickY);
+                aBrick.paint(g);
+
                 for (Ball aBall: balls) {
                     aBall.paint (g);
                 }
@@ -83,8 +76,22 @@ public class BallWorld extends JFrame {
             }
         };
 
-        MyMouseListener mml = new MyMouseListener();
-        mainPanel.addMouseMotionListener(mml);
+
+
+        MouseMotionListener m1 = new MouseMotionListener() {
+            @Override
+            public void mouseDragged(MouseEvent e) {
+
+            }
+
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                brickX= e.getX();
+                brickY= e.getY();
+
+            }
+        };
+        mainPanel.addMouseMotionListener(m1);
 
         mainPanel.setPreferredSize(new Dimension(FrameWidth,FrameHeight));
         this.add(mainPanel);
