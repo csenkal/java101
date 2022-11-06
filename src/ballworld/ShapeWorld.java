@@ -195,6 +195,7 @@ public class ShapeWorld extends JFrame implements MouseMotionListener {
 
 
                                 //  ilk brick goalkeeper olduğu için silinmiyor.
+
                                 if(j!=0)
                                 Bricks.remove(j);
 

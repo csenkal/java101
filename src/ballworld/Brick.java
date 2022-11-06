@@ -12,10 +12,11 @@ public class Brick extends Ball {
     public void setAsGoalKeeper ()
     {
         location.width = 100;
-        location.height=10;
+        location.height=20;
 
 
     }
+
 
 
 

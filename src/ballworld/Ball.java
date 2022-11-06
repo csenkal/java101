@@ -74,7 +74,7 @@ public class Ball {
     public void checkCollision(int width, int height){
         if ((this.x() < 0) || (this.x() > width))
             this.setMotion (-this.xMotion(), this.yMotion());
-        if ((this.y() < 0) || (this.y() > height))
+        if ((this.y() < 0))
             this.setMotion (this.xMotion(), -this.yMotion());
     }
 
@@ -89,36 +89,16 @@ public class Ball {
         String collision = "false" ;
         // Check the squared distances instead of the the distances, same
         // result, but avoids a square root.
-        if (distSquared <= (a.radius() + b.radius()) * (a.radius() + b.radius())) {
-
-            if(a.dx != 0 && b.dy!=0) {
-                System.out.println("!!! COLLISION !!!!");
-
-               /* a.setMotion(b.xMotion(), b.yMotion());
-                b.setMotion(-a.xMotion(), -a.yMotion());*/
-                  }
-
-            else if(a.dx != 0 || b.dy!=0) {
-                System.out.println("!!! COLLISION !!!!");
 
 
-            }
-
-
-
-
+        if(distSquared <= (a.radius() + b.radius()) * (a.radius() + b.radius()) )
+        {
                 collision = "true";
 
-            /*
-                a.dx += (collisionWeightA * xCollision);
-                a.dy += (collisionWeightA * yCollision);
-
-                b.dx -= (collisionWeightB * xCollision);
-                b.dy -= (collisionWeightB * yCollision);
-                */
-
-
         }
+
+
+
     return collision;
     }
 
