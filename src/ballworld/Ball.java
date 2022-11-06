@@ -94,8 +94,8 @@ public class Ball {
             if(a.dx != 0 && b.dy!=0) {
                 System.out.println("!!! COLLISION !!!!");
 
-                a.setMotion(b.xMotion(), b.yMotion());
-                b.setMotion(-a.xMotion(), -a.yMotion());
+               /* a.setMotion(b.xMotion(), b.yMotion());
+                b.setMotion(-a.xMotion(), -a.yMotion());*/
                   }
 
             else if(a.dx != 0 || b.dy!=0) {

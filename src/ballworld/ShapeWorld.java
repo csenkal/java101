@@ -32,8 +32,8 @@ public class ShapeWorld extends JFrame implements MouseMotionListener {
     //ArrayList LinkedList olarak değiştirildi
     private JPanel mainPanel;
 
-    double xcoordinateMouse;
-    double ycoordinateMouse;
+    int xcoordinateMouse;
+    int ycoordinateMouse;
 
 
     Ball collisionchecker;
@@ -108,8 +108,12 @@ public class ShapeWorld extends JFrame implements MouseMotionListener {
         }
 
 
+        Bricks.add((new Brick(240,400,40)));
+        Bricks.get(0).setAsGoalKeeper();
+        Bricks.get(0).setColor(Color.green);
 
-        for(int x=0;x<8;x++)
+
+        for(int x=1;x<8;x++)
         {
 
             Bricks.add((new Brick((x+1)*60,75,15)));
@@ -171,10 +175,12 @@ public class ShapeWorld extends JFrame implements MouseMotionListener {
 
                             }
 
-
                         }
                     }
                 }
+
+
+
 
 
                 for (int i = 0; i < Balls.size(); i++) {
@@ -183,6 +189,13 @@ public class ShapeWorld extends JFrame implements MouseMotionListener {
 
                             if(collisionchecker.intersect(Balls.get(i), Bricks.get(j)) == "true")
                             {
+
+
+                                Balls.get(i).dy = -Balls.get(i).dy;
+
+
+                                //  ilk brick goalkeeper olduğu için silinmiyor.
+                                if(j!=0)
                                 Bricks.remove(j);
 
                             }
@@ -192,8 +205,9 @@ public class ShapeWorld extends JFrame implements MouseMotionListener {
                     }
                 }
 
-
-
+                if(Bricks.size()>0) {
+                    Bricks.get(0).moveTo(xcoordinateMouse, 350);
+                }
 
 
 
