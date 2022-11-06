@@ -15,10 +15,29 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
+import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.List;
 
 
 public class BallWorld extends JFrame {
+
+
+
+    class MyMouseListener implements MouseMotionListener{
+
+        @Override
+        public void mouseDragged(MouseEvent e) {
+
+        }
+
+        @Override
+        public void mouseMoved(MouseEvent e) {
+            System.out.println(e.getX() +","+e.getY());
+        }
+    }
 
     public static void main (String [ ] args)
     {
@@ -29,9 +48,7 @@ public class BallWorld extends JFrame {
     private static final int FrameWidth = 600;
     private static final int FrameHeight = 400;
 
-    private LinkedList<RectangleBall> recballs;
-    private LinkedList<Ball> balls;
-
+    private List<Ball> balls;
 
 
     private JPanel mainPanel;
@@ -41,8 +58,7 @@ public class BallWorld extends JFrame {
     private BallWorld (Color ballColor) {
         // constructor for new ball world
 
-        recballs = new LinkedList<RectangleBall>();
-        balls = new LinkedList<Ball>();
+        balls = new ArrayList<Ball>();
         setTitle ("Ball World");
 
         //Tüm çizimler mainPanel üzerinde yapılıyor
@@ -59,10 +75,6 @@ public class BallWorld extends JFrame {
                 g.clearRect(0,0, mainPanel.getWidth(), mainPanel.getHeight());
                 //Sonra top yeni yerinde çizilir
 
-                for (RectangleBall aRecBall: recballs) {
-                    aRecBall.paint (g);
-                }
-
                 for (Ball aBall: balls) {
                     aBall.paint (g);
                 }
@@ -70,26 +82,28 @@ public class BallWorld extends JFrame {
 
             }
         };
+
+        MyMouseListener mml = new MyMouseListener();
+        mainPanel.addMouseMotionListener(mml);
+
         mainPanel.setPreferredSize(new Dimension(FrameWidth,FrameHeight));
         this.add(mainPanel);
         this.pack();
         // initialize object data field
         Color[] colors = new Color[]{Color.red, Color.black, Color.blue, Color.pink, Color.cyan};
-        for(int i=0; i<3; i++){
-            RectangleBall aRecBall = new RectangleBall ((i*10)+10, (i*10)+15, i*5+10);
-            aRecBall.setColor (colors[i]);
-            aRecBall.setMotion (i+1, i+1);
-            recballs.add(aRecBall);
-
-        }
-
-        for(int i=0; i<2; i++){
-            Ball aBall = new Ball ((i*30)+10, (i*20)+15, i*10+10);
+        Ball aBall;
+        for(int i=0; i<5; i++){
+            if(i%2==0)
+                aBall = new SquareBall ((i*10)+10, (i*10)+15, i*5+10);
+            else
+                aBall = new Ball ((i*10)+10, (i*10)+15, i*5+10);
             aBall.setColor (colors[i]);
-            aBall.setMotion (i+5, i+3);
+            aBall.setMotion (i+1, i+1);
+
             balls.add(aBall);
 
         }
+
 
 
         //Köşedeki çarpıya basılınca uygulamanın kapanması için
@@ -99,21 +113,12 @@ public class BallWorld extends JFrame {
         Timer timer = new Timer(10, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-                for (RectangleBall aRecBall: recballs) {
-                    //Topun konumu dx,dy kadar değiştirilir
-                    aRecBall.move();
-                    //Ekran dışına çıktıysa geri dönmesi sağlanır
-                    aRecBall.checkCollision(mainPanel.getWidth(),mainPanel.getHeight());
-                }
-
                 for (Ball aBall: balls) {
                     //Topun konumu dx,dy kadar değiştirilir
                     aBall.move();
                     //Ekran dışına çıktıysa geri dönmesi sağlanır
                     aBall.checkCollision(mainPanel.getWidth(),mainPanel.getHeight());
                 }
-
                 //Ekrandaki değişikliklerin çizilmesi için repaint in çağrılması gerekir
                 mainPanel.repaint();
             }
