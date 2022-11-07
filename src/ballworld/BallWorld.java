@@ -15,21 +15,34 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Scanner;
 
 
 public class BallWorld extends JFrame {
+    MouseMotionListener action = new MouseMotionListener() {
+        @Override
+        public void mouseDragged(MouseEvent e) {
 
+        }
+
+        @Override
+        public void mouseMoved(MouseEvent e) {
+            newT.moveTo(e.getX(),900);
+        }
+    };
     public static void main (String [ ] args)
     {
         BallWorld world = new BallWorld (Color.red);
         world.setVisible (true);
     }
 
-    private static final int FrameWidth = 600;
-    private static final int FrameHeight = 400;
+    private static final int FrameWidth = 2000;
+    private static final int FrameHeight = 1650;
+
 
 
     LinkedList<Ball> Ball_List = new LinkedList<>();
@@ -83,6 +96,8 @@ public class BallWorld extends JFrame {
             }
         };
 
+        mainPanel.addMouseMotionListener(action);
+
         mainPanel.setPreferredSize(new Dimension(FrameWidth,FrameHeight));
         this.add(mainPanel);
         this.pack();
@@ -96,11 +111,11 @@ public class BallWorld extends JFrame {
         for (int i=0; i<Dsayı;i++) {
             Ball aBall= new Ball(100, 200, 20);
             aBall.setColor(new Color((int)(Math.random() * 0x1000000)));
-            aBall.setMotion(-1+i, 2+2*i);
+            aBall.setMotion(3+i, 2+2*i);
             Ball_List.add(aBall);
         }
 
-        for (int i=0; i<20;i++) {
+        for (int i=0; i<40;i++) {
             Brick brick = new Brick(50+50*i, 50, 10);
             Brick_List.add(brick);
 

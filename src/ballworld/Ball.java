@@ -52,7 +52,7 @@ public class Ball {
     public double yMotion ()
     { return dy; }
 
-    public Rectangle region () { return location; }
+
 
     // functions that change attributes of ball
     public void moveTo (int x, int y)
@@ -69,25 +69,33 @@ public class Ball {
     }
 
     public void checkCollision(int width, int height){
+
         if ((this.x() < 0) || (this.x() > width))
             this.setMotion (-this.xMotion(), this.yMotion());
         if ((this.y() < 0)  )
             this.setMotion (this.xMotion(), -this.yMotion());
+        if (this.y()> height+40)
+            this.setMotion(0,0);                        // Top ekran dışına çıkarsa hızını 0 a eşitle (objeyi listden silmek daha mantıklı )
 
     }
 
     public void tabCollision(Ball tab,Ball ball){
-        if ((ball.y() > (tab.y())-30)){
-            if ((ball.x()>(-70+tab.x()) && (ball.x()<(+70+tab.x()))))
+        if ((ball.y() > (tab.y()-80))){
+            if ((ball.x()>(-80+tab.x()) && (ball.x()<(80+tab.x()))))
             ball.setMotion (ball.xMotion(), -ball.yMotion());
     }
+        if (tab.x()>1817) {
+            System.out.println("Tab ekran dışı");
+            tab.moveTo(1780, 900);
+        }
+
     }
 
     public int Collission2( Ball b1 ,Ball b0){   // b1 = toplar b0= brickler
         //this.setMotion(-this.xMotion(), this.yMotion());
 
         if ((Math.abs(b0.x()- b1.x())<=2*radius()) && (Math.abs(b1.y()-b0.y())<=2*radius())) {
-            b1.setMotion(-b1.xMotion(), -b1.yMotion());    // bazı çarpışmalar fizik dışı
+            b1.setMotion(-b1.xMotion(), -b1.yMotion());    // çarpışmalar fizik dışı
             return 1;
         }
         return 0;
